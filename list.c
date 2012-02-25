@@ -1,5 +1,6 @@
-#include <glibc.h>
+#include <stdio.h>
 #include "Alloc.h"
+#include "list.h"
 
 list_t *list_init(void) {
     list_t *list = Malloc(sizeof(list));
@@ -35,8 +36,8 @@ void list_del(list_t *list) {
         return;
     }
 
-    list_t *node = list->head;
-    list_t *next = NULL;
+    link_t *node = list->head;
+    link_t *next = NULL;
 
     while (node != NULL) {
         next = node->next;
