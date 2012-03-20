@@ -10,20 +10,27 @@ OBJS = $(addprefix obj/,$(addsuffix .o,$(FILES)))
 
 # Use the C11 standard.
 CC = gcc -std=c99
+
 # Enable tons of warnings and make them errors. No GNU extensions.
 WARN = -Wall -Wextra -Werror -pedantic -Wmissing-prototypes
-# Enable optimizations, debug symbols, speed up the build, include math library.
-CFLAGS = -O2 -g -march=native -pipe -lm
+
+# Enable optimizations, debug and profile symbols, speed up the build, include
+# math library.
+CFLAGS = -O2 -g -pg -march=native -pipe -lm
+
 # All rolled into one.
 BUILD = $(CC) $(CFLAGS) $(WARN)
 
 ray: $(OBJS)
-	$(BUILD) -o bin/ray $(OBJS)
+	-$(BUILD) -o ray $(OBJS) 2> main.err
+	@cat main.err
 
+# Build the .o file from the .c file, and don't link.
 obj/%.o: src/%.c include/%.h $(GLOBALS)
-	@# Build the .o file from the .c file, and don't link.
-	$(BUILD) -c -o $@ $<
+	-$(BUILD) -c -o $@ $< 2> err/$*.err
+	@cat err/$*.err
 
 clean:
-	rm -f bin/*
-	rm -f obj/*
+	rm -f obj/*.o
+	rm -f err/*.err
+	rm -f main.err
