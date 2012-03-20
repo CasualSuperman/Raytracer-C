@@ -11,4 +11,8 @@ typedef struct list_type {
     link_t *tail;
 } list_t;
 
+list_t *list_init(void);
+void list_add(list_t *, void *);
+void list_del(list_t *);
+
 #endif
