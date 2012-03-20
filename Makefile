@@ -1,8 +1,8 @@
 GLOBALS = Makefile
 FILES = Alloc list
-INCS = $(addprefix src/,$(addsuffix .h,$(FILES))) $(GLOBALS)
-SRCS = $(addprefix src/,$(addsuffix .c,$(FILES))) $(GLOBALS)
-OBJS = $(addprefix obj/,$(addsuffix .o,$(FILES))) $(GLOBALS)
+INCS = $(addprefix src/,$(addsuffix .h,$(FILES)))
+SRCS = $(addprefix src/,$(addsuffix .c,$(FILES)))
+OBJS = $(addprefix obj/,$(addsuffix .o,$(FILES)))
 
 # Avoid prefixing every command in clean.
 .SILENT: clean
@@ -18,8 +18,9 @@ CFLAGS = -O2 -g -march=native -pipe -lm
 BUILD = $(CC) $(CFLAGS) $(WARN)
 
 ray: $(OBJS)
+	$(BUILD) -o bin/ray $(OBJS)
 
-obj/%.o: src/%.c include/%.h
+obj/%.o: src/%.c include/%.h $(GLOBALS)
 	@# Build the .o file from the .c file, and don't link.
 	$(BUILD) -c -o $@ $<
 
