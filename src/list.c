@@ -1,6 +1,7 @@
 #include <stdio.h>
-#include "../include/Alloc.h"
-#include "../include/list.h"
+
+#include "Alloc.h"
+#include "list.h"
 
 list_t *list_init(void) {
     list_t *list = Malloc(sizeof(list));

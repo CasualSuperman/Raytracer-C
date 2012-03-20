@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../include/Alloc.h"
+#include "Alloc.h"
 
 static const int STACK_SIZE = 10;
 
