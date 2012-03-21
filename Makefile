@@ -5,8 +5,6 @@
 #################           Set up global file lists           #################
 GLOBALS = Makefile
 FILES = Alloc list main
-INCS = $(addprefix src/,$(addsuffix .h,$(FILES)))
-SRCS = $(addprefix src/,$(addsuffix .c,$(FILES)))
 OBJS = $(addprefix obj/,$(addsuffix .o,$(FILES)))
 
 #################             Set up phony targets             #################
@@ -15,7 +13,7 @@ OBJS = $(addprefix obj/,$(addsuffix .o,$(FILES)))
 # Don't stop even if the targets fail.
 .IGNORE: clean
 # Don't look for files names after the targets.
-.PHONY: clean
+.PHONY: all clean
 # Don't look at all the default suffixes.
 .SUFFIXES:
 
@@ -36,7 +34,7 @@ CFLAGS = -O2 -g -pg -march=native -pipe -lm
 BUILD = $(CC) $(CFLAGS) $(WARN)
 
 #################         Actual Makefile targets list         #################
-all: ray;
+all: ray
 
 ray: $(OBJS)
 	-$(BUILD) -o ray $(OBJS) 2> main.err
@@ -45,6 +43,10 @@ ray: $(OBJS)
 		rm main.err; \
 	else \
 		@cat main.err; \
+	fi
+	@if [[ -d err ]] || [[ -e main.err ]]; \
+	then \
+		echo "There were errors building the project."; \
 	fi
 
 # Build the .o file from the .c file, and don't link.
