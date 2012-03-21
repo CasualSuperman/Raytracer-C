@@ -56,3 +56,4 @@ clean:
 	rm -f obj/*.o
 	rm -f err/*.err
 	rm -f main.err
+	rm -f ray
