@@ -10,4 +10,6 @@ typedef struct {
     list_t *scene;
 } model_t;
 
+int model_init(FILE *, model_t *);
+
 #endif
