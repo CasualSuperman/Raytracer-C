@@ -20,12 +20,12 @@ int main(int argc, char* argv[]) {
     model_t *model  = Malloc(sizeof(model_t));
     model->proj = projection_init(argc, argv, stdin);
 
+    projection_dump(stderr, model->proj);
+
     model->lights  = list_init();
     model->scene   = list_init();
 /*
     int     rc;
-    model->proj = projection_init(argc, argv, stdin);
-    projection_dump(stderr, model->proj);
     rc = model_init(stdin, model);
     model_dump(stderr, model);
     if (rc == 0)

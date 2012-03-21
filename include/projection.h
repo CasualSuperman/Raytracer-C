@@ -7,6 +7,6 @@ typedef struct {
 
 proj_t* projection_init(int, char* [], FILE *);
 
-void projection_dump(FILE, proj_t*);
+void projection_dump(FILE *, proj_t*);
 
 #endif
