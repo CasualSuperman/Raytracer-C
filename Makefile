@@ -4,7 +4,8 @@
 
 #################           Set up global file lists           #################
 GLOBALS = Makefile
-FILES = Alloc list main
+FILES = Alloc list main model object
+SRCS = $(addprefix src/,$(addsuffix .c,$(FILES)))
 OBJS = $(addprefix obj/,$(addsuffix .o,$(FILES)))
 
 #################             Set up phony targets             #################
@@ -13,31 +14,51 @@ OBJS = $(addprefix obj/,$(addsuffix .o,$(FILES)))
 # Don't stop even if the targets fail.
 .IGNORE: clean
 # Don't look for files names after the targets.
-.PHONY: all clean nolink
+.PHONY: all analyze clean nolink
 # Don't look at all the default suffixes.
 .SUFFIXES:
 
 #################           Set up compilation flags           #################
-# Use the C99 standard. (I'd like to use C11, but our gcc doesn't support it)
-# Also, add ./include/ to our include path so our #includes don't need to be
-# relative.
-CC = gcc -std=c99 -I include
+# See if we have clang installed.
+HAS_CLANG = $(shell \
+	if which clang > /dev/null; \
+	then \
+		echo "clang"; \
+	else \
+		echo "gcc"; \
+	fi)
 
-# Enable tons of warnings and make them errors. No GNU extensions.
+ifeq (clang, ${HAS_CLANG})
+CC = clang -fcolor-diagnostics
+WARN = -Weverything -Werror
+OPTIMIZE = -O4
+ANALYZE = $(CC) --analyze
+else
+CC = gcc
 WARN = -Wall -Wextra -Werror -pedantic -Wmissing-prototypes
+OPTIMIZE = -O2
+ANALYZE = splint $(CMETA) $(WARN) $(CFLAGS) -badflag
+endif
+
+# Things about C itself. Use the C99 standard, and add the include folder to
+# the search path.
+CMETA = -std=c99 -I include
 
 # Enable optimizations, debug and profile symbols, speed up the build, include
 # math library.
-CFLAGS = -O2 -g -pg -march=native -pipe -lm
+CFLAGS = -march=native -pipe
+
+PROFILE        = -pg
+DEBUG          = -g
 
 # All rolled into one.
-BUILD = $(CC) $(CFLAGS) $(WARN)
+BUILD = $(CC) $(OPTIMIZE) $(CMETA) $(CFLAGS) $(WARN)
 
 #################         Actual Makefile targets list         #################
 all: ray
 
 ray: $(OBJS)
-	-$(BUILD) -o ray $(OBJS) 2> main.err
+	-$(BUILD) -lm -o ray $(OBJS) 2> main.err
 	@if [[ "`du -s main.err | cut -f1`" == 0 ]]; \
 	then \
 		rm main.err; \
@@ -50,6 +71,9 @@ ray: $(OBJS)
 	fi
 
 nolink: $(OBJS);
+
+analyze:
+	$(ANALYZE) $(SRCS)
 
 # Build the .o file from the .c file, and don't link.
 obj/%.o: src/%.c include/%.h $(GLOBALS)
