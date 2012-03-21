@@ -13,7 +13,7 @@ OBJS = $(addprefix obj/,$(addsuffix .o,$(FILES)))
 # Don't stop even if the targets fail.
 .IGNORE: clean
 # Don't look for files names after the targets.
-.PHONY: all clean
+.PHONY: all clean nolink
 # Don't look at all the default suffixes.
 .SUFFIXES:
 
@@ -42,12 +42,14 @@ ray: $(OBJS)
 	then \
 		rm main.err; \
 	else \
-		@cat main.err; \
+		cat main.err; \
 	fi
 	@if [[ -d err ]] || [[ -e main.err ]]; \
 	then \
 		echo "There were errors building the project."; \
 	fi
+
+nolink: $(OBJS);
 
 # Build the .o file from the .c file, and don't link.
 obj/%.o: src/%.c include/%.h $(GLOBALS)

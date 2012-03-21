@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "Alloc.h"
+#include "exit.h"
 
 static const int STACK_SIZE = 10;
 
@@ -13,7 +14,7 @@ void *Malloc(size_t size) {
         fprintf(stderr, "malloc of %lu bytes failed.\n", size);
 //        backtrace_symbols(array, STACK_SIZE);
 //        backtrace_symbols_fd(array, STACK_SIZE, stderr);
-        exit(1);
+        exit(EXIT_FAILED_ALLOC);
     }
     return ptr;
 }
@@ -26,7 +27,7 @@ void *Calloc(size_t num, size_t size) {
         fprintf(stderr, "calloc of %lu*%lu bytes failed.\n", num, size);
 //        backtrace_symbols(array, STACK_SIZE);
 //        backtrace_symbols_fd(array, STACK_SIZE, stderr);
-        exit(1);
+        exit(EXIT_FAILED_ALLOC);
     }
     return ptr;
 }
@@ -40,7 +41,7 @@ void *Realloc(void *ptr, size_t size) {
 //        backtrace_symbols(array, STACK_SIZE);
 //        backtrace_symbols_fd(array, STACK_SIZE, stderr);
 //
-        exit(1);
+        exit(EXIT_FAILED_ALLOC);
     }
     return new_ptr;
 }
