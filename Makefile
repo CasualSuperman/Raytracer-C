@@ -14,7 +14,7 @@ OBJS = $(addprefix obj/,$(addsuffix .o,$(FILES)))
 # Don't stop even if the targets fail.
 .IGNORE: clean
 # Don't look for files names after the targets.
-.PHONY: ray clean
+.PHONY: clean
 
 #################           Set up compilation flags           #################
 # Use the C99 standard. (I'd like to use C11, but our gcc doesn't support it)
