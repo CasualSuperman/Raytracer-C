@@ -2,7 +2,8 @@
 #define EXIT_H
 
 enum {
-    // EXIT_SUCCESS = 0
+    // This is already defined in a macro; it is included here for completeness.
+ /* EXIT_SUCCESS = 0 */
     EXIT_FAILED_ALLOC = 1
 };
 
