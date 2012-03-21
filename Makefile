@@ -44,6 +44,7 @@ ray: $(OBJS)
 
 # Build the .o file from the .c file, and don't link.
 obj/%.o: src/%.c include/%.h $(GLOBALS)
+	mkdir -p obj err
 	-$(BUILD) -c -o $@ $< 2> err/$*.err
 	@if [[ "`du -s err/$*.err | cut -f1`" == 0 ]]; \
 	then \
