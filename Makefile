@@ -16,6 +16,9 @@ OBJS = $(addprefix obj/,$(addsuffix .o,$(FILES)))
 .IGNORE: clean
 # Don't look for files names after the targets.
 .PHONY: clean
+# Don't look at all the default suffixes.
+.SUFFIXES:
+.SUFFIXES: .c .o .h
 
 #################           Set up compilation flags           #################
 # Use the C99 standard. (I'd like to use C11, but our gcc doesn't support it)
@@ -63,3 +66,4 @@ clean:
 	rm -rf err/
 	rm -f main.err
 	rm -f ray
+	rm -f gmon.out
