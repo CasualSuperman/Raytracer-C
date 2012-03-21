@@ -12,7 +12,7 @@
 #include "projection.h"
 #include "list.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char **argv) {
     // Stores the return code of various subroutines.
     int return_code = 0;
     model_t *model  = NULL;
