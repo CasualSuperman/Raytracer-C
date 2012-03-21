@@ -1,7 +1,8 @@
 #include <stdio.h>
 
-void usage(char *);
-int main(int, char **);
+#include "main.h"
+
+static const int EXIT_SUCCESS = 0;
 
 void usage(char *name) {
     fprintf(stderr, "Usage: %s width height\n", name);
@@ -13,5 +14,6 @@ int main(int argc, char* argv[]) {
         usage(argv[0]);
         return 1;
     }
-    return 0;
+
+    return EXIT_SUCCESS;
 }

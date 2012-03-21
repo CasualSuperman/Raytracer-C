@@ -3,7 +3,7 @@
 
 #################           Set up global file lists           #################
 GLOBALS = Makefile
-FILES = Alloc list
+FILES = Alloc list main
 INCS = $(addprefix src/,$(addsuffix .h,$(FILES)))
 SRCS = $(addprefix src/,$(addsuffix .c,$(FILES)))
 OBJS = $(addprefix obj/,$(addsuffix .o,$(FILES)))
@@ -34,7 +34,7 @@ BUILD = $(CC) $(CFLAGS) $(WARN)
 
 #################         Actual Makefile targets list         #################
 ray: $(OBJS)
-	-$(BUILD) -o ray main.c $(OBJS) 2> main.err
+	-$(BUILD) -o ray $(OBJS) 2> main.err
 	@if [[ "`du -s main.err | cut -f1`" == 0 ]]; \
 	then \
 		rm main.err; \
@@ -44,7 +44,7 @@ ray: $(OBJS)
 
 # Build the .o file from the .c file, and don't link.
 obj/%.o: src/%.c include/%.h $(GLOBALS)
-	mkdir -p obj err
+	@mkdir -p obj err
 	-$(BUILD) -c -o $@ $< 2> err/$*.err
 	@if [[ "`du -s err/$*.err | cut -f1`" == 0 ]]; \
 	then \
@@ -52,9 +52,13 @@ obj/%.o: src/%.c include/%.h $(GLOBALS)
 	else \
 		cat err/$*.err; \
 	fi
+	@if [[ "`ls err`" == "" ]]; \
+	then \
+		rm -r err; \
+	fi
 
 clean:
-	rm -f obj/*.o
-	rm -f err/*.err
+	rm -r obj/
+	rm -r err/
 	rm -f main.err
 	rm -f ray
