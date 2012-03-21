@@ -1,5 +1,6 @@
-#!/usr/bin/make
 # Makefile for raytracer.
+# Robert Wertman
+# 2012-03-21
 
 #################           Set up global file lists           #################
 GLOBALS = Makefile
@@ -58,7 +59,7 @@ obj/%.o: src/%.c include/%.h $(GLOBALS)
 	fi
 
 clean:
-	rm -r obj/
-	rm -r err/
+	rm -rf obj/
+	rm -rf err/
 	rm -f main.err
 	rm -f ray
