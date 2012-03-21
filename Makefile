@@ -18,7 +18,6 @@ OBJS = $(addprefix obj/,$(addsuffix .o,$(FILES)))
 .PHONY: clean
 # Don't look at all the default suffixes.
 .SUFFIXES:
-.SUFFIXES: .c .o .h
 
 #################           Set up compilation flags           #################
 # Use the C99 standard. (I'd like to use C11, but our gcc doesn't support it)
@@ -37,6 +36,8 @@ CFLAGS = -O2 -g -pg -march=native -pipe -lm
 BUILD = $(CC) $(CFLAGS) $(WARN)
 
 #################         Actual Makefile targets list         #################
+all: ray;
+
 ray: $(OBJS)
 	-$(BUILD) -o ray $(OBJS) 2> main.err
 	@if [[ "`du -s main.err | cut -f1`" == 0 ]]; \
