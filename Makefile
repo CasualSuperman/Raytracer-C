@@ -35,22 +35,22 @@ BUILD = $(CC) $(CFLAGS) $(WARN)
 #################         Actual Makefile targets list         #################
 ray: $(OBJS)
 	-$(BUILD) -o ray main.c $(OBJS) 2> main.err
-	ifeq $(shell du -s main.err | cut -f1), 0
-		rm main.err
-	else
-		cat main.err
-	endif
+	@if [[ "`du -s main.err | cut -f1`" == 0 ]]; \
+	then \
+		rm main.err; \
+	else \
+		@cat main.err; \
+	fi
 
 # Build the .o file from the .c file, and don't link.
 obj/%.o: src/%.c include/%.h $(GLOBALS)
 	-$(BUILD) -c -o $@ $< 2> err/$*.err
-	@$(shell \
-	if [[ "`du -s err/$*.err | cut -f1`" == 0 ]]; \
+	@if [[ "`du -s err/$*.err | cut -f1`" == 0 ]]; \
 	then \
-		echo "rm err/$*.err"; \
+		rm err/$*.err; \
 	else \
-		echo "cat err/$*.err"; \
-	fi)
+		cat err/$*.err; \
+	fi
 
 clean:
 	rm -f obj/*.o
