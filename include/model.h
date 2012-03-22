@@ -1,6 +1,7 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+#include <stdbool.h>
 #include <stdio.h>
 
 #include "list.h"
@@ -12,6 +13,6 @@ typedef struct {
     list_t *scene;
 } model_t;
 
-int model_init(FILE *, model_t *);
+bool model_init(FILE *, model_t *);
 
 #endif

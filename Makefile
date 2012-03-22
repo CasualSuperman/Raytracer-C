@@ -4,9 +4,9 @@
 
 #################           Set up global file lists           #################
 GLOBALS = Makefile
-FILES = Alloc list main model object
-SRCS = $(addprefix src/,$(addsuffix .c,$(FILES)))
-OBJS = $(addprefix obj/,$(addsuffix .o,$(FILES)))
+MODULES = Alloc list main material model object vector
+SRCS = $(addprefix src/,$(addsuffix .c,$(MODULES)))
+OBJS = $(addprefix obj/,$(addsuffix .o,$(MODULES)))
 
 #################             Set up phony targets             #################
 # Don't print the command being run.
@@ -32,12 +32,12 @@ ifeq (clang, ${HAS_CLANG})
 CC = clang -fcolor-diagnostics
 WARN = -Weverything -Werror
 OPTIMIZE = -O4
-ANALYZE = $(CC) --analyze
+ANALYZE = $(CC) $(CMETA) --analyze
 else
 CC = gcc
 WARN = -Wall -Wextra -Werror -pedantic -Wmissing-prototypes
 OPTIMIZE = -O2
-ANALYZE = splint $(CMETA) $(WARN) $(CFLAGS) -badflag
+ANALYZE = splint -I include -weak
 endif
 
 # Things about C itself. Use the C99 standard, and add the include folder to
@@ -48,8 +48,8 @@ CMETA = -std=c99 -I include
 # math library.
 CFLAGS = -march=native -pipe
 
-PROFILE        = -pg
-DEBUG          = -g
+PROFILE = -pg
+DEBUG   = -g -O0
 
 # All rolled into one.
 BUILD = $(CC) $(OPTIMIZE) $(CMETA) $(CFLAGS) $(WARN)
@@ -70,10 +70,14 @@ ray: $(OBJS)
 		echo "There were errors building the project."; \
 	fi
 
-nolink: $(OBJS);
+debug: $(OBJS)
+	-$(BUILD) $(DEBUG) -lm -o ray $(OBJS)
+
+nolink: analyze $(OBJS);
 
 analyze:
-	$(ANALYZE) $(SRCS)
+	@$(ANALYZE) $(SRCS)
+	@rm -f $(addsuffix .plist,$(MODULES))
 
 # Build the .o file from the .c file, and don't link.
 obj/%.o: src/%.c include/%.h $(GLOBALS)

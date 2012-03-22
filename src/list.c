@@ -3,7 +3,7 @@
 #include "Alloc.h"
 #include "list.h"
 
-list_t *list_init(void) {
+list_t* list_init(void) {
     list_t *list = Malloc(sizeof(list));
     list->head = NULL;
     list->tail = NULL;
@@ -11,12 +11,17 @@ list_t *list_init(void) {
 }
 
 void list_add(list_t *list, void *entity) {
+	link_t *node = NULL;
+
     if (list == NULL) {
         fprintf(stderr, "Warning: Tried to add to a NULL list.");
         return;
     }
 
-    link_t *node = Malloc(sizeof(link_t));
+    node = Malloc(sizeof(link_t));
+    
+	node->item = entity;
+
     if (list->head == NULL) {
         list->head = node;
         list->tail = node;
@@ -24,17 +29,16 @@ void list_add(list_t *list, void *entity) {
         list->tail->next = node;
         list->tail = node;
     }
-    node->item = entity;
 }
 
 void list_del(list_t *list) {
+	link_t *node = NULL;
+	link_t *next = NULL;
+
     if (list == NULL) {
         fprintf(stderr, "Warning: Tried to add to a NULL list.");
         return;
     }
-
-    link_t *node = list->head;
-    link_t *next = NULL;
 
     while (node != NULL) {
         next = node->next;
@@ -42,5 +46,6 @@ void list_del(list_t *list) {
         free(node);
         node = next;
     }
+
     free(list);
 }
