@@ -21,7 +21,7 @@ OBJS = $(addprefix obj/,$(addsuffix .o,$(MODULES)))
 #################           Set up compilation flags           #################
 # See if we have clang installed.
 HAS_CLANG = $(shell \
-	if which clang > /dev/null; \
+	if which clang &> /dev/null; \
 	then \
 		echo "clang"; \
 	else \
