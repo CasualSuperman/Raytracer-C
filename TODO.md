@@ -1,4 +1,4 @@
 TODO
 ====
 
-* Fix stack tracing in Alloc.c
+* Add model initialization functions to the array in model.c
