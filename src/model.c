@@ -24,7 +24,7 @@ bool model_init(FILE *in, model_t *model) {
 	// While we can read.
 	while (return_code && fgets(buf, sizeof(char) * BUFFER_SIZE, in)) {
 		// Get the number code, and store if we got it.
-		int matched = sscanf(buf, "%d", &obj_type);
+		int matched = sscanf(buf, "%u", &obj_type);
 
 		// Try again on the next line if we didn't find a number.
 		if (!matched) continue;
