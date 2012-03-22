@@ -4,10 +4,12 @@
 #include <stdio.h>
 
 typedef struct {
-    int dummy;
+    int    win_size_pixel[2];
+	double win_size_world[2];
+	double view_point[3];
 } proj_t;
 
-proj_t* projection_init(int, char**, FILE*);
+proj_t* projection_init(int, char **, FILE *);
 
 void projection_dump(FILE *, proj_t*);
 

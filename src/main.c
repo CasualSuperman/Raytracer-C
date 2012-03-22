@@ -17,12 +17,6 @@ int main(int argc, char **argv) {
     int return_code = 0;
     model_t *model  = NULL;
 
-    // Print usage and quit if we didn't get the right number of args.
-    if (3 != argc) {
-        usage(argv[0]);
-        return 1;
-    }
-
     // Allocate a new model.
     model = Malloc(sizeof(model_t));
 

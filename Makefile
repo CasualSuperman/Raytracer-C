@@ -4,7 +4,7 @@
 
 #################           Set up global file lists           #################
 GLOBALS = Makefile
-MODULES = Alloc list main material model object vector
+MODULES = Alloc list main material model object projection vector
 SRCS = $(addprefix src/,$(addsuffix .c,$(MODULES)))
 OBJS = $(addprefix obj/,$(addsuffix .o,$(MODULES)))
 
