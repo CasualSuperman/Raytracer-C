@@ -40,9 +40,11 @@ OPTIMIZE = -O2
 ANALYZE = splint -I include -weak
 endif
 
-# Things about C itself. Use the C99 standard, and add the include folder to
-# the search path.
-CMETA = -std=c99 -I include
+# Add the include folder to the search path.
+INCLUDE = -I include
+
+# Things about C itself. Use the C99 standard.
+CMETA = -std=c99
 
 # Enable optimizations, debug and profile symbols, speed up the build, include
 # math library.
@@ -52,13 +54,14 @@ PROFILE = -pg
 DEBUG   = -g -O0
 
 # All rolled into one.
-BUILD = $(CC) $(OPTIMIZE) $(CMETA) $(CFLAGS) $(WARN)
+BUILD = $(CC) $(OPTIMIZE) $(INCLUDE) $(CFLAGS) $(WARN) $(CMETA)
+LINK  = $(CC) $(OPTIMIZE) $(INCLUDE) $(CFLAGS) $(WARN)
 
 #################         Actual Makefile targets list         #################
 all: ray
 
 ray: $(OBJS)
-	-$(BUILD) -lm -o ray $(OBJS) 2> main.err
+	-$(LINK) -lm -o ray $(OBJS) 2> main.err
 	@if [[ "`du -s main.err | cut -f1`" == 0 ]]; \
 	then \
 		rm main.err; \
