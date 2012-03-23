@@ -29,7 +29,7 @@ bool model_init(FILE *in, model_t *model) {
 		int matched = sscanf(buf, "%u", &obj_type);
 
 		// Try again on the next line if we didn't find a number.
-		if (!matched) continue;
+		if (matched != 1) continue;
 
 		// Otherwise, load up the object type.
 		if (obj_type >= FIRST_TYPE && obj_type < NUM_TYPES) {
