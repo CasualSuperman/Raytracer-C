@@ -32,12 +32,12 @@ ifeq (clang, ${HAS_CLANG})
 CC = clang -fcolor-diagnostics
 WARN = -Weverything -Werror
 OPTIMIZE = -O4
-ANALYZE = $(CC) $(CMETA) --analyze
+ANALYZE = $(CC) $(CMETA) $(INCLUDE) --analyze
 else
 CC = gcc
 WARN = -Wall -Wextra -Werror -pedantic -Wmissing-prototypes
 OPTIMIZE = -O2
-ANALYZE = splint -I include -weak
+ANALYZE = splint $(INCLUDE) -weak
 endif
 
 # Add the include folder to the search path.
@@ -54,8 +54,8 @@ PROFILE = -pg
 DEBUG   = -g -O0
 
 # All rolled into one.
-BUILD = $(CC) $(OPTIMIZE) $(INCLUDE) $(CFLAGS) $(WARN) $(CMETA)
 LINK  = $(CC) $(OPTIMIZE) $(INCLUDE) $(CFLAGS) $(WARN)
+BUILD = $(LINK) $(CMETA)
 
 #################         Actual Makefile targets list         #################
 all: ray
