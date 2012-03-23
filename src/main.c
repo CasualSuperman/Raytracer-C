@@ -1,4 +1,5 @@
 // Library headers
+#include <stdbool.h>
 #include <stdio.h>
 
 // Program headers
@@ -14,7 +15,7 @@
 
 int main(int argc, char **argv) {
     // Stores the return code of various subroutines.
-    int return_code = 0;
+    bool return_code = 0;
     model_t *model  = NULL;
 
     // Allocate a new model.
@@ -32,7 +33,7 @@ int main(int argc, char **argv) {
     return_code = model_init(stdin, model);
 
     // If it was, render the image.
-    if (return_code == 0) {
+    if (return_code == true) {
         make_image(model);
     }
 
