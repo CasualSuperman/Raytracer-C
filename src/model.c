@@ -10,6 +10,7 @@
 
 // TODO: Populate this list.
 static obj_t* (*init_type[])(FILE *, object_id) = {
+	plane_init,
 	sphere_init
 };
 
@@ -24,7 +25,7 @@ bool model_init(FILE *in, model_t *model) {
 	// While we can read.
 	while (return_code && fgets(buf, sizeof(char) * BUFFER_SIZE, in)) {
 		// Get the number code, and store if we got it.
-		int matched = sscanf(buf, "%d", &obj_type);
+		int matched = sscanf(buf, "%u", &obj_type);
 
 		// Try again on the next line if we didn't find a number.
 		if (!matched) continue;
@@ -35,8 +36,14 @@ bool model_init(FILE *in, model_t *model) {
 			if (new) {
 				list_add(model->scene, new);
 			} else {
+				fprintf(stderr,
+					    "Valid object type %u found, but not implemented.\n",
+					    obj_type);
 				return_code = false;
 			}
+		} else {
+			fprintf(stderr, "Unknown object type %u found.\n", obj_type);
+			return_code = false;
 		}
 	}
 

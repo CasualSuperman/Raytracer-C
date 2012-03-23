@@ -8,6 +8,7 @@
 #include "raytracer.h"
 
 proj_t* projection_init(int argc, char **argv, FILE *in) {
+	char line[BUFFER_SIZE];
 	char *width, *height;
 	proj_t *proj;
 	int count;
@@ -24,18 +25,24 @@ proj_t* projection_init(int argc, char **argv, FILE *in) {
 	proj->win_size_pixel[0] = atoi(width);
 	proj->win_size_pixel[1] = atoi(height);
 
-	count = fscanf(in, "%lf %lf",
-						&(proj->win_size_world[0]),
-						&(proj->win_size_world[1]));
+	fgets(line, BUFFER_SIZE, in);
+
+	count = sscanf(line, "%lf %lf",
+						 &(proj->win_size_world[0]),
+						 &(proj->win_size_world[1]));
 	if (count != 2) {
+		fprintf(stderr, "Only %d world size paramters found.\n", count);
 		exit(EXIT_BAD_PARAMS);
 	}
 	
-	count = fscanf(in, "%lf %lf %lf",
-						&(proj->view_point[0]),
-						&(proj->view_point[1]),
-						&(proj->view_point[2]));
+	fgets(line, BUFFER_SIZE, in);
+
+	count = sscanf(line, "%lf %lf %lf",
+						 &(proj->view_point[0]),
+						 &(proj->view_point[1]),
+						 &(proj->view_point[2]));
 	if (count != 3) {
+		fprintf(stderr, "Only %d view point paramters found.\n", count);
 		exit(EXIT_BAD_PARAMS);
 	}
 
