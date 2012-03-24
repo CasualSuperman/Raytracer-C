@@ -34,5 +34,5 @@ void unitvecN(double* vin, double* vout, int size);
 /**
  * Prints vin with the label label.
  */
-void vecprnN(char* label, double* vin, int size);
+void vecprnN(FILE*, char *, double *, int);
 #endif

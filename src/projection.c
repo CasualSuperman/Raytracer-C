@@ -2,6 +2,7 @@
 
 #include "Alloc.h"
 #include "exit.h"
+#include "log.h"
 #include "main.h"
 
 #include "projection.h"
@@ -31,7 +32,7 @@ proj_t* projection_init(int argc, char **argv, FILE *in) {
 						 &(proj->win_size_world[0]),
 						 &(proj->win_size_world[1]));
 	if (count != 2) {
-		fprintf(stderr, "Only %d world size paramters found.\n", count);
+		log("Only %d world size paramters found.", count);
 		exit(EXIT_BAD_PARAMS);
 	}
 	
@@ -42,7 +43,7 @@ proj_t* projection_init(int argc, char **argv, FILE *in) {
 						 &(proj->view_point[1]),
 						 &(proj->view_point[2]));
 	if (count != 3) {
-		fprintf(stderr, "Only %d view point paramters found.\n", count);
+		log("Only %d view point paramters found.", count);
 		exit(EXIT_BAD_PARAMS);
 	}
 
@@ -50,11 +51,15 @@ proj_t* projection_init(int argc, char **argv, FILE *in) {
 }
 
 void projection_dump(FILE *out, proj_t *proj) {
-	fprintf(out, "Projection:\n");
-	fprintf(out, "\tSCREEN\twidth: %d\n\t\theight: %d\n",
-			proj->win_size_pixel[0], proj->win_size_pixel[1]);
-	fprintf(out, "\tWORLD\twidth: %lf\n\t\theight: %lf\n",
-			proj->win_size_world[0], proj->win_size_world[1]);
-	fprintf(out, "\tVIEWPT\tx: %lf\n\t\ty: %lf\n\t\tz: %lf\n",
-			proj->view_point[0], proj->view_point[1], proj->view_point[2]);
+	flog(out, "Projection:");
+	flog(out, "\tSCREEN");
+	flog(out, "\t\twidth: %d", proj->win_size_pixel[0]);
+	flog(out, "\t\theight: %d", proj->win_size_pixel[1]);
+	flog(out, "\tWORLD");
+	flog(out, "\t\twidth: %lf", proj->win_size_world[0]);
+	flog(out, "\t\theight: %lf", proj->win_size_world[1]);
+	flog(out, "\tVIEWPT");
+	flog(out, "\t\tx: %lf", proj->view_point[0]);
+	flog(out, "\t\ty: %lf", proj->view_point[1]);
+	flog(out, "\t\tz: %lf", proj->view_point[2]);
 }

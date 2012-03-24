@@ -106,13 +106,13 @@ void unitvecN(double* vin, double* vout, int size) {
  * @param vin The vector to print.
  * @param size The dimensionality of the vector.
  */
-void vecprnN(char* label, double* vin, int size) {
-    printf("%s: <", label);
+void vecprnN(FILE *out, char* label, double* vin, int size) {
+    fprintf(out, "%s: <", label);
     if (size-- > 0) {
-        printf("%.3lf", *vin++);
+        fprintf(out, "%.3lf", *vin++);
         while (size--) {
-            printf(", %.3lf", *vin++);
+            fprintf(out, ", %.3lf", *vin++);
         }
     }
-    printf(">\n");
+    fprintf(out, ">\n");
 }

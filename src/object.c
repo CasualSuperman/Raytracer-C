@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "Alloc.h"
+#include "log.h"
 
 #include "material.h"
 #include "object.h"
@@ -16,7 +17,13 @@ obj_t* object_init(FILE *in, object_id obj_type) {
 
 	if (obj_type > MAX_LIGHT) {
 		material_load(in, &obj->material);
+	} else {
+		log("Light found, not loading material.");
 	}
 
 	return obj;
+}
+
+void dump_object(FILE *out, obj_t* obj) {
+	dump_material(out, &(obj->material));
 }

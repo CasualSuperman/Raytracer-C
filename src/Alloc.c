@@ -3,13 +3,14 @@
 
 #include "Alloc.h"
 #include "exit.h"
+#include "log.h"
 
 // Malloc size_t bytes. Exit on failure.
 void* Malloc(size_t size) {
     void *ptr = malloc(size);
 
     if (ptr == NULL) {
-        /*@i@*/fprintf(stderr, "malloc of %zu bytes failed.\n", size);
+        log("malloc of %zu bytes failed.", size);
         exit(EXIT_FAILED_ALLOC);
     }
 
@@ -21,7 +22,7 @@ void* Calloc(size_t num, size_t size) {
     void *ptr = calloc(num, size);
 
     if (ptr == NULL) {
-        /*@i@*/fprintf(stderr, "calloc of %zu*%zu bytes failed.\n", num, size);
+        log("calloc of %zu*%zu bytes failed.", num, size);
         exit(EXIT_FAILED_ALLOC);
     }
 
@@ -33,7 +34,7 @@ void* Realloc(void *ptr, size_t size) {
     void *new_ptr = realloc(ptr, size);
 
     if (new_ptr == NULL) {
-        /*@i@*/fprintf(stderr, "realloc of %zu bytes failed.\n", size);
+        log("realloc of %zu bytes failed.", size);
         exit(EXIT_FAILED_ALLOC);
     }
 

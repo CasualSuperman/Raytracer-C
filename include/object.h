@@ -23,7 +23,7 @@ typedef struct object_type {
     int                obj_id;
     object_id          obj_type;
 
-    double (*hits)(double *, double *, struct object_type);
+    double (*hits)(double *, double *, struct object_type *);
 
     void (*get_ambient )(struct object_type *, double *);
     void (*get_diffuse )(struct object_type *, double *);
@@ -40,5 +40,6 @@ typedef struct object_type {
 } obj_t;
 
 obj_t* object_init(FILE *, object_id);
+void dump_object(FILE *, obj_t *);
 
 #endif

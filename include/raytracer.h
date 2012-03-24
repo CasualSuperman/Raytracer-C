@@ -1,7 +1,6 @@
 #ifndef RAYTRACER_H
 #define RAYTRACER_H
 
-
 enum {
 	// The size of a default character buffer.
 	BUFFER_SIZE = 256,

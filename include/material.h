@@ -10,5 +10,6 @@ typedef struct {
 } material_t;
 
 bool material_load(FILE *, material_t *);
+void dump_material(FILE *, material_t *);
 
 #endif

@@ -4,7 +4,7 @@
 
 #################           Set up global file lists           #################
 GLOBALS = Makefile
-MODULES = Alloc image list main material model object projection vector
+MODULES = Alloc image list log main material model object plane projection sphere vector
 SRCS = $(addprefix src/,$(addsuffix .c,$(MODULES)))
 OBJS = $(addprefix obj/,$(addsuffix .o,$(MODULES)))
 
@@ -31,10 +31,10 @@ HAS_CLANG = $(shell \
 ifeq (clang, ${HAS_CLANG})
 CC = clang -fcolor-diagnostics
 WARN = -Weverything -Werror
-OPTIMIZE = -O4
+OPTIMIZE = -O0
 ANALYZE = $(CC) $(CMETA) $(INCLUDE) --analyze
 else
-CC = gcc
+CC = gcc -fno-builtin
 WARN = -Wall -Wextra -Werror -pedantic -Wmissing-prototypes
 OPTIMIZE = -O2
 ANALYZE = splint $(INCLUDE) -weak
@@ -54,8 +54,8 @@ PROFILE = -pg
 DEBUG   = -g -O0
 
 # All rolled into one.
-LINK  = $(CC) $(OPTIMIZE) $(INCLUDE) $(CFLAGS) $(WARN)
-BUILD = $(LINK) $(CMETA)
+LINK  = $(CC) $(OPTIMIZE) $(INCLUDE) $(CFLAGS) $(WARN) -lm
+BUILD = $(CC) $(OPTIMIZE) $(INCLUDE) $(CFLAGS) $(WARN) $(CMETA)
 
 #################         Actual Makefile targets list         #################
 all: ray
@@ -74,7 +74,7 @@ ray: $(OBJS)
 	fi
 
 debug: $(OBJS)
-	-$(BUILD) $(DEBUG) -lm -o ray $(OBJS)
+	-$(BUILD) $(DEBUG) -o ray $(OBJS)
 
 nolink: analyze $(OBJS);
 

@@ -5,6 +5,7 @@
 // Program headers
 #include "Alloc.h"
 #include "exit.h"
+#include "log.h"
 #include "main.h"
 
 // Raytracer headers
@@ -42,5 +43,5 @@ int main(int argc, char **argv) {
 }
 
 void usage(char *name) {
-    fprintf(stderr, "Usage: %s width height\n", name);
+    log("Usage: %s width height", name);
 }

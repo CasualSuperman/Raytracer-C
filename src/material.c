@@ -1,8 +1,11 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+#include "log.h"
+
 #include "material.h"
 #include "raytracer.h"
+#include "vector.h"
 
 bool material_load(FILE *in, material_t *mat) {
 	char  buf[BUFFER_SIZE];
@@ -51,4 +54,10 @@ bool material_load(FILE *in, material_t *mat) {
 		return false;
 	}
 	return true;
+}
+
+void dump_material(FILE *out, material_t *mat) {
+	vecprnN(out, "\tAmbient", mat->ambient, 3);
+	vecprnN(out, "\tDiffuse", mat->diffuse, 3);
+	vecprnN(out, "\tSpecular", mat->specular, 3);
 }
