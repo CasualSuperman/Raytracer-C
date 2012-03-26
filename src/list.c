@@ -7,7 +7,7 @@
 #include "object.h"
 
 list_t* init_list(void) {
-    list_t *list = Malloc(sizeof(list));
+    list_t *list = Malloc(sizeof(list_t));
     list->head = NULL;
     list->tail = NULL;
     return list;
