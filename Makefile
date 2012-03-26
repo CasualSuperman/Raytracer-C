@@ -21,23 +21,30 @@ OBJS = $(addprefix obj/,$(addsuffix .o,$(MODULES)))
 #################           Set up compilation flags           #################
 # See if we have clang installed.
 HAS_CLANG = $(shell \
-	if which clang &> /dev/null; \
-	then \
-		echo "clang"; \
-	else \
-		echo "gcc"; \
-	fi)
+  if which clang &> /dev/null; \
+  then \
+    echo "clang"; \
+  else \
+    echo "gcc"; \
+  fi)
 
 ifeq (clang, ${HAS_CLANG})
-CC = clang -fcolor-diagnostics
-WARN = -Weverything -Werror
-OPTIMIZE = -O0
-ANALYZE = $(CC) $(CMETA) $(INCLUDE) --analyze
+  CLANG_VER = $(shell \
+  	clang -v 2>&1 | grep version | cut -f3 -d" " | cut -f1 -d. \
+  )
+  CC = clang -fcolor-diagnostics
+  OPTIMIZE = -O0
+  ANALYZE = $(CC) $(CMETA) $(INCLUDE) --analyze
+  ifeq (3, ${CLANG_VER})
+    WARN = -Weverything -Werror
+  else
+    WARN = -Weverything -Werror
+  endif
 else
-CC = gcc -fno-builtin
-WARN = -Wall -Wextra -Werror -pedantic -Wmissing-prototypes
-OPTIMIZE = -O2
-ANALYZE = splint $(INCLUDE) -weak
+  CC = gcc -fno-builtin
+  WARN = -Wall -Wextra -Werror -pedantic -Wmissing-prototypes
+  OPTIMIZE = -O2
+  ANALYZE = splint $(INCLUDE) -weak
 endif
 
 # Add the include folder to the search path.
