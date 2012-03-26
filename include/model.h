@@ -15,7 +15,10 @@ typedef struct {
 } model_t;
 
 typedef obj_t* (*init_shape)(FILE *, object_id);
+typedef void (*debug_shape)(FILE *, obj_t *);
 
-bool model_init(FILE *, model_t *);
+bool init_model(FILE *, model_t *);
+void dump_model(FILE *, model_t *);
+void free_model(model_t *);
 
 #endif

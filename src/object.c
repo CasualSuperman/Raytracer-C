@@ -8,7 +8,7 @@
 
 static int obj_id = 0;
 
-obj_t* object_init(FILE *in, object_id obj_type) {
+obj_t* init_object(FILE *in, object_id obj_type) {
 	obj_t *obj = Malloc(sizeof(obj_t));
 
 	obj->next     = NULL;
@@ -26,4 +26,9 @@ obj_t* object_init(FILE *in, object_id obj_type) {
 
 void dump_object(FILE *out, obj_t* obj) {
 	dump_material(out, &(obj->material));
+}
+
+void free_object(obj_t *obj) {
+	free(obj->priv);
+	free(obj);
 }

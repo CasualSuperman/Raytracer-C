@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "list.h"
 #include "log.h"
@@ -15,13 +16,21 @@ static init_shape init_type[] = {
 	NULL, // light
 	NULL, // spotlight
 	NULL, // projector
-	sphere_init,
-	plane_init
+	init_sphere,
+	init_plane
+};
+
+static debug_shape debug_type[] = {
+	NULL, // light
+	NULL, // spotlight
+	NULL, // projector
+	dump_sphere,
+	NULL  // Plane
 };
 
 const int NUM_TYPES = sizeof(init_type) / sizeof(void*);
 
-bool model_init(FILE *in, model_t *model) {
+bool init_model(FILE *in, model_t *model) {
     obj_t     *new              = NULL; // The new object.
     bool      return_code       = true; // If we parsed correctly.
     char      buf[BUFFER_SIZE];         // Our input buffer.
@@ -39,8 +48,7 @@ bool model_init(FILE *in, model_t *model) {
 		if (obj_type >= FIRST_TYPE && (obj_type - FIRST_TYPE) < NUM_TYPES) {
 			if (init_type[obj_type - FIRST_TYPE] != NULL) {
 				new = init_type[obj_type - FIRST_TYPE](in, obj_type);
-				list_add(model->scene, new);
-				dump_sphere(stderr, new);
+				add_list(model->scene, new);
 			} else {
 				log("Valid object type %u found, but not implemented.", obj_type);
 				return_code = false;
@@ -52,4 +60,22 @@ bool model_init(FILE *in, model_t *model) {
 	}
 
     return return_code;
+}
+
+void dump_model(FILE *out, model_t *model) {
+	list_t *scene = model->scene;
+
+	obj_t *obj = scene->head;
+
+	while (obj != NULL) {
+		debug_type[obj->obj_type - FIRST_TYPE](out, obj);
+		obj = obj->next;
+	}
+}
+
+void free_model(model_t *model) {
+	free(model->proj);
+	free_list(model->lights);
+	free_list(model->scene);
+	free(model);
 }

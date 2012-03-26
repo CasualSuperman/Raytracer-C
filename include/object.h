@@ -39,7 +39,8 @@ typedef struct object_type {
     double normal[DIMS];
 } obj_t;
 
-obj_t* object_init(FILE *, object_id);
+obj_t* init_object(FILE *, object_id);
 void dump_object(FILE *, obj_t *);
+void free_object(obj_t *);
 
 #endif

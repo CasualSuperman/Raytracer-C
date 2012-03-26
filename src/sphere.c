@@ -9,6 +9,7 @@
 #include "sphere.h"
 #include "vector.h"
 
+// TODO: Write this.
 static double hits_sphere(double *base, double *dir, struct object_type *obj) {
 	base = NULL;
 	dir = NULL;
@@ -17,9 +18,9 @@ static double hits_sphere(double *base, double *dir, struct object_type *obj) {
 	return 0;
 }
 
-obj_t* sphere_init(FILE *in, object_id id) {
+obj_t* init_sphere(FILE *in, object_id id) {
 	// Initialize our objects and variables.
-	obj_t    *obj = object_init(in, id);
+	obj_t    *obj = init_object(in, id);
 	sphere_t *new = Malloc(sizeof(sphere_t));
 	int      read = 0;
 
@@ -31,8 +32,8 @@ obj_t* sphere_init(FILE *in, object_id id) {
 	// While we're reading empty lines/comments.
 	do {
 		read = fscanf(in, "%lf %lf %lf %*s %*[\n]", &(new->center[0]),
-										 &(new->center[1]),
-										 &(new->center[2]));
+													&(new->center[1]),
+													&(new->center[2]));
 	} while (read == 0);
 
 	if (read != 3) {

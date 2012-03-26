@@ -27,15 +27,17 @@ int main(int argc, char **argv) {
     projection_dump(stderr, model->proj);
 
     // Initialize the lists for storing lights and scene objects.
-    model->lights  = list_init();
-    model->scene   = list_init();
+    model->lights  = init_list();
+    model->scene   = init_list();
 
     // Populate the lists and see if it was successful.
-    return_code = model_init(stdin, model);
+    return_code = init_model(stdin, model);
 
     // If it was, render the image.
     if (return_code == true) {
+		dump_model(stderr, model);
         make_image(model);
+		free_model(model);
     }
 
     // And go on our merry way.

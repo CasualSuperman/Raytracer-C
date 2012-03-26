@@ -8,7 +8,7 @@ typedef struct {
 	double radius;
 } sphere_t;
 
-obj_t* sphere_init(FILE *, object_id);
+obj_t* init_sphere(FILE *, object_id);
 void dump_sphere(FILE *, obj_t *);
 
 #endif
