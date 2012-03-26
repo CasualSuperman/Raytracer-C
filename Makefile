@@ -38,7 +38,7 @@ ifeq (clang, ${HAS_CLANG})
   ifeq (3, ${CLANG_VER})
     WARN = -Weverything -Werror
   else
-    WARN = -Weverything -Werror
+    WARN = -Wall -Wextra -pedantic -Werror
   endif
 else
   CC = gcc -fno-builtin
