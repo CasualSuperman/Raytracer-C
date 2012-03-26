@@ -4,47 +4,44 @@
 #include "list.h"
 #include "log.h"
 
-list_t* list_init(void) {
+#include "object.h"
+
+list_t* init_list(void) {
     list_t *list = Malloc(sizeof(list));
     list->head = NULL;
     list->tail = NULL;
     return list;
 }
 
-void list_add(list_t *list, void *entity) {
-	link_t *node = NULL;
-
+void add_list(list_t *list, obj_t *entity) {
     if (list == NULL) {
         log("Warning: Tried to add to a NULL list.");
         return;
     }
 
-    node = Malloc(sizeof(link_t));
-    
-	node->item = entity;
-
     if (list->head == NULL) {
-        list->head = node;
-        list->tail = node;
+        list->head = entity;
+        list->tail = entity;
     } else {
-        list->tail->next = node;
-        list->tail = node;
+        list->tail->next = entity;
+        list->tail       = entity;
     }
 }
 
-void list_del(list_t *list) {
-	link_t *node = NULL;
-	link_t *next = NULL;
+void free_list(list_t *list) {
+	obj_t *node = NULL;
+	obj_t *next = NULL;
 
     if (list == NULL) {
-        log("Warning: Tried to add to a NULL list.");
+        log("Warning: Tried to free a NULL list.");
         return;
     }
 
+	node = list->head;
+
     while (node != NULL) {
         next = node->next;
-        free(node->item);
-        free(node);
+        free_object(node);
         node = next;
     }
 
