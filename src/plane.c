@@ -16,7 +16,6 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 	return 0;
 }
 
-// TODO: Write this.
 obj_t* init_plane(FILE *in, object_id id) {
 	// Initialize our objects and variables.
 	obj_t   *obj = init_object(in, id);
@@ -40,9 +39,9 @@ obj_t* init_plane(FILE *in, object_id id) {
 		exit(EXIT_BAD_SCENE);
 	}
 
-		read = fscanf(in, "%lf %lf %lf %*s %*[\n]", &(new->normal[0]),
-													&(new->normal[1]),
-													&(new->normal[2]));
+		read = fscanf(in, "%lf %lf %lf", &(new->normal[0]),
+										 &(new->normal[1]),
+										 &(new->normal[2]));
 
 	if (read != 3) {
 		log("Error loading sphere radius. Read in %i values.", read);
