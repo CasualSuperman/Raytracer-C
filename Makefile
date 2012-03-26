@@ -14,7 +14,7 @@ OBJS = $(addprefix obj/,$(addsuffix .o,$(MODULES)))
 # Don't stop even if the targets fail.
 .IGNORE: clean
 # Don't look for files names after the targets.
-.PHONY: all analyze clean nolink
+.PHONY: all analyze clean debug nolink
 # Don't look at all the default suffixes.
 .SUFFIXES:
 
@@ -58,7 +58,7 @@ CMETA = -std=c99
 CFLAGS = -march=native -pipe
 
 PROFILE = -pg
-DEBUG   = -g -O0
+DEBUG   = -g -O0 -ggdb
 
 # All rolled into one.
 LINK  = $(CC) $(OPTIMIZE) $(INCLUDE) $(CFLAGS) $(WARN) -lm
@@ -68,7 +68,7 @@ BUILD = $(CC) $(OPTIMIZE) $(INCLUDE) $(CFLAGS) $(WARN) $(CMETA)
 all: ray
 
 ray: $(OBJS)
-	-$(LINK) -lm -o ray $(OBJS) 2> main.err
+	-$(LINK) -o ray $(OBJS) 2> main.err
 	@if [[ "`du -s main.err | cut -f1`" == 0 ]]; \
 	then \
 		rm main.err; \
@@ -81,7 +81,17 @@ ray: $(OBJS)
 	fi
 
 debug: $(OBJS)
-	-$(BUILD) $(DEBUG) -o ray $(OBJS)
+	-$(LINK) $(DEBUG) -o ray $(OBJS) 2> main.err
+	@if [[ "`du -s main.err | cut -f1`" == 0 ]]; \
+	then \
+		rm main.err; \
+	else \
+		cat main.err; \
+	fi
+	@if [[ -d err ]] || [[ -e main.err ]]; \
+	then \
+		echo "There were errors building the project."; \
+	fi
 
 nolink: analyze $(OBJS);
 
