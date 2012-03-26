@@ -25,7 +25,7 @@ static debug_shape debug_type[] = {
 	NULL, // spotlight
 	NULL, // projector
 	dump_sphere,
-	NULL  // Plane
+	dump_plane
 };
 
 const int NUM_TYPES = sizeof(init_type) / sizeof(void*);
