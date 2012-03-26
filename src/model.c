@@ -11,7 +11,7 @@
 #include "sphere.h"
 
 // TODO: Populate this list.
-static obj_t* (*init_type[])(FILE *, object_id) = {
+static init_shape init_type[] = {
 	NULL, // light
 	NULL, // spotlight
 	NULL, // projector
