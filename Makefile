@@ -62,26 +62,13 @@ DEBUG   = -g -O0 -ggdb
 
 # All rolled into one.
 LINK  = $(CC) $(OPTIMIZE) $(INCLUDE) $(CFLAGS) $(WARN) -lm
-BUILD = $(CC) $(OPTIMIZE) $(INCLUDE) $(CFLAGS) $(WARN) $(CMETA)
+BUILD = $(CC) $(OPTIMIZE) $(INCLUDE) $(CFLAGS) $(WARN) $(CMETA) $(DEBUG)
 
 #################         Actual Makefile targets list         #################
 all: ray
 
 ray: $(OBJS)
 	-$(LINK) -o ray $(OBJS) 2> main.err
-	@if [[ "`du -s main.err | cut -f1`" == 0 ]]; \
-	then \
-		rm main.err; \
-	else \
-		cat main.err; \
-	fi
-	@if [[ -d err ]] || [[ -e main.err ]]; \
-	then \
-		echo "There were errors building the project."; \
-	fi
-
-debug: $(OBJS)
-	-$(LINK) $(DEBUG) -o ray $(OBJS) 2> main.err
 	@if [[ "`du -s main.err | cut -f1`" == 0 ]]; \
 	then \
 		rm main.err; \
