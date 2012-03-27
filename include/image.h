@@ -11,7 +11,4 @@ typedef struct {
 
 void make_image(model_t *);
 
-static void print_header(int, int);
-static pixel_t* pos_to_pixel(int, int, int, pixel_t *);
-
 #endif

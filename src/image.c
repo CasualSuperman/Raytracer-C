@@ -7,6 +7,9 @@
 #include "model.h"
 #include "projection.h"
 
+static void print_header(int, int);
+static pixel_t* pos_to_pixel(int, int, int, pixel_t *);
+
 void make_image(model_t *model) {
 	proj_t  *proj  = model->proj;
 	int     width  = proj->win_size_pixel[0];
@@ -19,8 +22,8 @@ void make_image(model_t *model) {
 		for (int col = 0; col < height; ++col) {
 			*(pos_to_pixel(row, col, height, image)) = (pixel_t) {0, 0, 0};
 		}
-		fwrite(image + row * height, sizeof(pixel_t), (size_t) height, stdout);
 	}
+	fwrite(image, sizeof(pixel_t), (size_t) (height * width), stdout);
 }
 
 static void print_header(int width, int height) {

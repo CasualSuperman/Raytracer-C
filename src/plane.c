@@ -53,6 +53,9 @@ obj_t* init_plane(FILE *in, object_id id) {
 
 // TODO: Write this.
 void dump_plane(FILE *out, obj_t *obj) {
-	out = NULL;
-	obj = NULL;
+	plane_t *plane = (plane_t*) obj->priv;
+	flog(out, "Plane:");
+	dump_object(out, obj);
+	vecprnN(out, "\tCenter", plane->center, 3);
+	vecprnN(out, "\tNormal", plane->normal, 3);
 }
