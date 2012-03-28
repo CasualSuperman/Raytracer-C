@@ -77,7 +77,6 @@ obj_t* init_plane(FILE *in, object_id id) {
 	return obj;
 }
 
-// TODO: Write this.
 void dump_plane(FILE *out, obj_t *obj) {
 	plane_t *plane = (plane_t*) obj->priv;
 	fsay(out, "Plane:");

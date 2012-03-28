@@ -3,7 +3,7 @@
 
 #include "model.h"
 
-typedef struct {
+typedef struct pixel_type{
 	unsigned char r;
 	unsigned char g;
 	unsigned char b;
