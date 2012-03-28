@@ -24,6 +24,7 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 	double n_dot_d = dotN(N, D, 3);
 	// If we are parallel to the plane.
 	if (isZero(n_dot_d)) {
+//		say("Plane is parallel.");
 		return -1;
 	}
 
@@ -37,16 +38,17 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 	// base + (dir * Th)
 	sumN(V, P, P, 3);
 
-	if (P[2] < *(base + 2)) {
+	if (P[2] > 0) {
+		say("Plane is behind viewer. (T = %lf)", T);
 		return -1;
 	}
 
 	// Copy hit location to hitloc
 	memcpy(obj->hitloc, P, sizeof(double) * 3);
 
-	diffN(V, P, P, 3);
+	say("Hit plane %d at point %lf %lf %lf (T = %lf)", obj->obj_id, P[0], P[1], P[2], T);
 
-	return lengthN(P, 3);
+	return T;
 }
 
 obj_t* init_plane(FILE *in, object_id id) {

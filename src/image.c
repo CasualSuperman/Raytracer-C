@@ -38,9 +38,10 @@ static obj_t* find_closest_obj(list_t *scene, double base[3], double dir[3],
 	obj_t  *obj     = scene->head;
 
 	while (obj != NULL) {
+//		say("Testing against shape %d.", obj->obj_id);
 		double this_dist = obj->hits(base, dir, obj);
 
-		if (this_dist > 0 && this_dist < close) {
+		if (this_dist >= 0 && this_dist < close) {
 			close = this_dist;
 			closest = obj;
 		}
@@ -51,6 +52,7 @@ static obj_t* find_closest_obj(list_t *scene, double base[3], double dir[3],
 	unknown = NULL;
 
 	if (closest != NULL) {
+		say("Hit closest object with id %d (Distance = %lf).", closest->obj_id, close);
 		*distance = close;
 	}
 
@@ -63,12 +65,9 @@ static void ray_trace(model_t *model, double base[3], double dir[3],
 									  &total_dist);
 
 	if (closest != NULL) {
-		fprintf(stderr, "%lf\n", total_dist);
 		color[0] = closest->material.ambient[0] / total_dist;
 		color[1] = closest->material.ambient[1] / total_dist;
 		color[2] = closest->material.ambient[2] / total_dist;
-	} else {
-		say("Pixel missed.");
 	}
 }
 
@@ -79,9 +78,15 @@ static void make_pixel(model_t *model, int row, int col, pixel_t *pix) {
 
 	map_pixel_to_world(model->proj, row, col, base);
 
-	diffN(base, model->proj->view_point, dir, 3);
+	diffN(model->proj->view_point, base, dir, 3);
+	unitvecN(dir, dir, 3);
 
-	ray_trace(model, base, dir, color, 0.0, NULL);
+	say("");
+
+	say("Tracing pixel %d, %d. - %lf %lf (direction %lf %lf %lf)", row, col,
+		base[0], base[1],
+		dir[0], dir[1], dir[2]);
+	ray_trace(model, model->proj->view_point, dir, color, 0.0, NULL);
 
 	for (int i = 0; i < 3; ++i) {
 		if (color[i] > 1) {
@@ -99,9 +104,9 @@ static void map_pixel_to_world(proj_t *proj, int row, int col, double *pos) {
 							  *  proj->win_size_world[0]
 							  - (proj->win_size_world[0] / 2.0);
 
-	*(pos + 1) = (double) col / (proj->win_size_pixel[1] - 1)
+	*(pos + 1) = (double) col / (-proj->win_size_pixel[1] - 1)
 							  *  proj->win_size_world[1]
-							  - (proj->win_size_world[1] / 2.0);
+							  + (proj->win_size_world[1] / 2.0);
 
 	*(pos + 2) = 0;
 }

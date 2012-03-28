@@ -10,6 +10,7 @@
 
 // TODO: Write this.
 static double hits_sphere(double *base, double *dir, struct object_type *obj) {
+	say("Sphere not implemented; missing sphere %d.", obj->obj_id);
 	base = NULL;
 	dir = NULL;
 	obj = NULL;

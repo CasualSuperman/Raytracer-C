@@ -3,8 +3,8 @@
 
 #include "raytracer.h"
 
-static const double variance = 0.000001;
+static const double TOLERANCE = 0.00000001;
 
-inline bool isZero(double comp) {
-	return (fabs(comp) <= variance);
+bool isZero(double comp) {
+	return fabs(comp) <= TOLERANCE;
 }
