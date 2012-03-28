@@ -9,34 +9,44 @@
 #include "plane.h"
 #include "vector.h"
 
+// Th = (N dot Q  - N dot V) / (N dot D)
 static double hits_plane(double *base, double *dir, struct object_type *obj) {
-	double temp[3] = {0, 0, 0};
 	plane_t *plane = (plane_t*) obj->priv;
+	double *Q = plane->center;
+	double *N = plane->normal;
+	double *D = dir;
+	double *V = base;
+	double P[3] = {0, 0, 0};
+	double T = 0;
 
-	double n_dot_temp = -1;
+	unitvecN(D, D, 3);
 
-	double n_dot_d = dotN(plane->normal, dir, 3);
+	double n_dot_d = dotN(N, D, 3);
 	// If we are parallel to the plane.
 	if (isZero(n_dot_d)) {
 		return -1;
 	}
 
-	diffN(plane->center, base, temp, 3);
-	n_dot_temp = dotN(temp, plane->normal, 3);
+	double n_dot_q = dotN(N, Q, 3);
+	double n_dot_v = dotN(N, V, 3);
 
-	if (n_dot_temp <= 0) {
+	T = (n_dot_q - n_dot_v) / n_dot_d;
+
+	// dir * Th
+	scaleN(T, D, P, 3);
+	// base + (dir * Th)
+	sumN(V, P, P, 3);
+
+	if (P[2] <= *(V + 2)) {
 		return -1;
 	}
 
-	// dir * Th
-	scaleN(n_dot_temp, dir, temp, 3);
-	// base + (dir * Th)
-	sumN(temp, base, temp, 3);
-
 	// Copy hit location to hitloc
-	memcpy(obj->hitloc, temp, sizeof(double) * 3);
+	memcpy(obj->hitloc, P, sizeof(double) * 3);
 
-	return n_dot_temp;
+	diffN(V, P, P, 3);
+
+	return lengthN(P, 3);
 }
 
 obj_t* init_plane(FILE *in, object_id id) {

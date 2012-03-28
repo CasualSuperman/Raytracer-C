@@ -24,10 +24,11 @@ void make_image(model_t *model) {
 
 	for (int row = 0; row < width; ++row) {
 		for (int col = 0; col < height; ++col) {
-			make_pixel(model, row, col, pos_to_pixel(row, col, height, image));
+			make_pixel(model, row, col, pos_to_pixel(row, col, width, image));
 		}
 	}
 	fwrite(image, sizeof(pixel_t), (size_t) (height * width), stdout);
+	free(image);
 }
 
 static obj_t* find_closest_obj(list_t *scene, double base[3], double dir[3],
@@ -59,6 +60,7 @@ static void ray_trace(model_t *model, double base[3], double dir[3],
 									  &total_dist);
 
 	if (closest != NULL) {
+//		fprintf(stderr, "%lf\n", total_dist);
 		color[0] = closest->material.ambient[0] / total_dist;
 		color[1] = closest->material.ambient[1] / total_dist;
 		color[2] = closest->material.ambient[2] / total_dist;
@@ -73,7 +75,6 @@ static void make_pixel(model_t *model, int row, int col, pixel_t *pix) {
 	map_pixel_to_world(model->proj, row, col, base);
 
 	diffN(base, model->proj->view_point, dir, 3);
-	unitvecN(dir, dir, 3);
 
 	ray_trace(model, model->proj->view_point, dir, color, 0.0, NULL);
 
@@ -111,5 +112,5 @@ static void print_header(int width, int height) {
 }
 
 static inline pixel_t* pos_to_pixel(int row, int col, int height, pixel_t *base) {
-	return (row * height + col) + base;
+	return (col * height + row) + base;
 }

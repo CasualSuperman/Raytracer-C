@@ -14,7 +14,7 @@ static double hits_sphere(double *base, double *dir, struct object_type *obj) {
 	dir = NULL;
 	obj = NULL;
 //	sphere_t *sphere = (sphere_t *) obj->priv;
-	return 0;
+	return -1;
 }
 
 obj_t* init_sphere(FILE *in, object_id id) {
