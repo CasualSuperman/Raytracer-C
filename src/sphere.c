@@ -43,7 +43,7 @@ obj_t* init_sphere(FILE *in, object_id id) {
 	read = fscanf(in, "%lf", &(new->radius));
 
 	if (read != 1) {
-		log("Error loading sphere radius. Read in %i values.", read);
+		log("Error loading sphere radius. Read in %d values.", read);
 		exit(EXIT_BAD_SCENE);
 	}
 

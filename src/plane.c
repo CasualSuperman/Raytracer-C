@@ -35,7 +35,7 @@ obj_t* init_plane(FILE *in, object_id id) {
 	} while (read == 0);
 
 	if (read != 3) {
-		log("Error loading sphere center. Read in %d values.", read);
+		log("Error loading plane center. Read in %d values.", read);
 		exit(EXIT_BAD_SCENE);
 	}
 
@@ -44,9 +44,12 @@ obj_t* init_plane(FILE *in, object_id id) {
 										 &(new->normal[2]));
 
 	if (read != 3) {
-		log("Error loading sphere radius. Read in %i values.", read);
+		log("Error loading plane normal. Read in %d values.", read);
 		exit(EXIT_BAD_SCENE);
 	}
+
+	// Preload the normal for a last hit on a plane, since it won't change.
+	unitvecN(new->normal, obj->normal, 3);
 
 	return obj;
 }
