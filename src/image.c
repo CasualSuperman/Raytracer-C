@@ -50,7 +50,10 @@ static obj_t* find_closest_obj(list_t *scene, double base[3], double dir[3],
 	// This is to silence the unused variable error.
 	unknown = NULL;
 
-	*distance += close;
+	if (closest != NULL) {
+		*distance = close;
+	}
+
 	return closest;
 }
 
@@ -60,10 +63,12 @@ static void ray_trace(model_t *model, double base[3], double dir[3],
 									  &total_dist);
 
 	if (closest != NULL) {
-//		fprintf(stderr, "%lf\n", total_dist);
+		fprintf(stderr, "%lf\n", total_dist);
 		color[0] = closest->material.ambient[0] / total_dist;
 		color[1] = closest->material.ambient[1] / total_dist;
 		color[2] = closest->material.ambient[2] / total_dist;
+	} else {
+		say("Pixel missed.");
 	}
 }
 
@@ -76,7 +81,7 @@ static void make_pixel(model_t *model, int row, int col, pixel_t *pix) {
 
 	diffN(base, model->proj->view_point, dir, 3);
 
-	ray_trace(model, model->proj->view_point, dir, color, 0.0, NULL);
+	ray_trace(model, base, dir, color, 0.0, NULL);
 
 	for (int i = 0; i < 3; ++i) {
 		if (color[i] > 1) {

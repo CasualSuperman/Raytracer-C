@@ -37,7 +37,7 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 	// base + (dir * Th)
 	sumN(V, P, P, 3);
 
-	if (P[2] <= *(V + 2)) {
+	if (P[2] < *(base + 2)) {
 		return -1;
 	}
 
