@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 
-#include "image.h"
 #include "material.h"
 #include "raytracer.h"
 
@@ -26,9 +25,9 @@ typedef struct object_type {
 
     double (*hits)(double *, double *, struct object_type *);
 
-    void (*get_ambient )(struct object_type *, struct pixel_type *);
-    void (*get_diffuse )(struct object_type *, struct pixel_type *);
-    void (*get_specular)(struct object_type *, struct pixel_type *);
+    void (*get_ambient )(struct object_type *, double *);
+    void (*get_diffuse )(struct object_type *, double *);
+    void (*get_specular)(struct object_type *, double *);
 
     material_t material;
 

@@ -52,22 +52,22 @@ obj_t* init_plane(FILE *in, object_id id) {
 	// Load in the information specific to a sphere.
 	// While we're reading empty lines/comments.
 	do {
-		read = fscanf(in, "%lf %lf %lf %*s %*[\n]", &(new->center[0]),
-													&(new->center[1]),
-													&(new->center[2]));
+		read = fscanf(in, "%lf %lf %lf %*s %*[\n]", &(new->normal[0]),
+													&(new->normal[1]),
+													&(new->normal[2]));
 	} while (read == 0);
 
 	if (read != 3) {
-		say("Error loading plane center. Read in %d values.", read);
+		say("Error loading plane normal. Read in %d values.", read);
 		exit(EXIT_BAD_SCENE);
 	}
 
-		read = fscanf(in, "%lf %lf %lf", &(new->normal[0]),
-										 &(new->normal[1]),
-										 &(new->normal[2]));
+	read = fscanf(in, "%lf %lf %lf", &(new->center[0]),
+									 &(new->center[1]),
+									 &(new->center[2]));
 
 	if (read != 3) {
-		say("Error loading plane normal. Read in %d values.", read);
+		say("Error loading plane center. Read in %d values.", read);
 		exit(EXIT_BAD_SCENE);
 	}
 
