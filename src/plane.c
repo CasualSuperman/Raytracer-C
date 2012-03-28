@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "Alloc.h"
 #include "exit.h"
@@ -9,11 +10,33 @@
 #include "vector.h"
 
 static double hits_plane(double *base, double *dir, struct object_type *obj) {
-	base = NULL;
-	dir = NULL;
-	obj = NULL;
-//	sphere_t *sphere = (sphere_t *) obj->priv;
-	return 0;
+	double temp[3] = {0, 0, 0};
+	plane_t *plane = (plane_t*) obj->priv;
+
+	double n_dot_temp = -1;
+
+	double n_dot_d = dotN(plane->normal, dir, 3);
+	// If we are parallel to the plane.
+	if (isZero(n_dot_d)) {
+		return -1;
+	}
+
+	diffN(plane->center, base, temp, 3);
+	n_dot_temp = dotN(temp, plane->normal, 3);
+
+	if (n_dot_temp <= 0) {
+		return -1;
+	}
+
+	// dir * Th
+	scaleN(n_dot_temp, dir, temp, 3);
+	// base + (dir * Th)
+	sumN(temp, base, temp, 3);
+
+	// Copy hit location to hitloc
+	memcpy(obj->hitloc, temp, sizeof(double) * 3);
+
+	return n_dot_temp;
 }
 
 obj_t* init_plane(FILE *in, object_id id) {
