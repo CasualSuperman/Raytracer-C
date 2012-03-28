@@ -10,7 +10,7 @@ void* Malloc(size_t size) {
     void *ptr = malloc(size);
 
     if (ptr == NULL) {
-        log("malloc of %zu bytes failed.", size);
+        say("malloc of %zu bytes failed.", size);
         exit(EXIT_FAILED_ALLOC);
     }
 
@@ -22,7 +22,7 @@ void* Calloc(size_t num, size_t size) {
     void *ptr = calloc(num, size);
 
     if (ptr == NULL) {
-        log("calloc of %zu*%zu bytes failed.", num, size);
+        say("calloc of %zu*%zu bytes failed.", num, size);
         exit(EXIT_FAILED_ALLOC);
     }
 
@@ -34,7 +34,7 @@ void* Realloc(void *ptr, size_t size) {
     void *new_ptr = realloc(ptr, size);
 
     if (new_ptr == NULL) {
-        log("realloc of %zu bytes failed.", size);
+        say("realloc of %zu bytes failed.", size);
         exit(EXIT_FAILED_ALLOC);
     }
 

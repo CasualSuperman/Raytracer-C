@@ -45,5 +45,5 @@ int main(int argc, char **argv) {
 }
 
 void usage(char *name) {
-    log("Usage: %s width height", name);
+    say("Usage: %s width height", name);
 }

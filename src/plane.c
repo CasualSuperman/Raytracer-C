@@ -58,7 +58,7 @@ obj_t* init_plane(FILE *in, object_id id) {
 	} while (read == 0);
 
 	if (read != 3) {
-		log("Error loading plane center. Read in %d values.", read);
+		say("Error loading plane center. Read in %d values.", read);
 		exit(EXIT_BAD_SCENE);
 	}
 
@@ -67,7 +67,7 @@ obj_t* init_plane(FILE *in, object_id id) {
 										 &(new->normal[2]));
 
 	if (read != 3) {
-		log("Error loading plane normal. Read in %d values.", read);
+		say("Error loading plane normal. Read in %d values.", read);
 		exit(EXIT_BAD_SCENE);
 	}
 
@@ -80,7 +80,7 @@ obj_t* init_plane(FILE *in, object_id id) {
 // TODO: Write this.
 void dump_plane(FILE *out, obj_t *obj) {
 	plane_t *plane = (plane_t*) obj->priv;
-	flog(out, "Plane:");
+	fsay(out, "Plane:");
 	dump_object(out, obj);
 	vecprnN(out, "\tCenter", plane->center, 3);
 	vecprnN(out, "\tNormal", plane->normal, 3);

@@ -32,7 +32,7 @@ proj_t* projection_init(int argc, char **argv, FILE *in) {
 						 &(proj->win_size_world[0]),
 						 &(proj->win_size_world[1]));
 	if (count != 2) {
-		log("Only %d world size paramters found.", count);
+		say("Only %d world size paramters found.", count);
 		exit(EXIT_BAD_PARAMS);
 	}
 	
@@ -43,7 +43,7 @@ proj_t* projection_init(int argc, char **argv, FILE *in) {
 						 &(proj->view_point[1]),
 						 &(proj->view_point[2]));
 	if (count != 3) {
-		log("Only %d view point paramters found.", count);
+		say("Only %d view point paramters found.", count);
 		exit(EXIT_BAD_PARAMS);
 	}
 
@@ -51,15 +51,15 @@ proj_t* projection_init(int argc, char **argv, FILE *in) {
 }
 
 void projection_dump(FILE *out, proj_t *proj) {
-	flog(out, "Projection:");
-	flog(out, "\tSCREEN");
-	flog(out, "\t\twidth: %d", proj->win_size_pixel[0]);
-	flog(out, "\t\theight: %d", proj->win_size_pixel[1]);
-	flog(out, "\tWORLD");
-	flog(out, "\t\twidth: %lf", proj->win_size_world[0]);
-	flog(out, "\t\theight: %lf", proj->win_size_world[1]);
-	flog(out, "\tVIEWPT");
-	flog(out, "\t\tx: %lf", proj->view_point[0]);
-	flog(out, "\t\ty: %lf", proj->view_point[1]);
-	flog(out, "\t\tz: %lf", proj->view_point[2]);
+	fsay(out, "Projection:");
+	fsay(out, "\tSCREEN");
+	fsay(out, "\t\twidth: %d", proj->win_size_pixel[0]);
+	fsay(out, "\t\theight: %d", proj->win_size_pixel[1]);
+	fsay(out, "\tWORLD");
+	fsay(out, "\t\twidth: %lf", proj->win_size_world[0]);
+	fsay(out, "\t\theight: %lf", proj->win_size_world[1]);
+	fsay(out, "\tVIEWPT");
+	fsay(out, "\t\tx: %lf", proj->view_point[0]);
+	fsay(out, "\t\ty: %lf", proj->view_point[1]);
+	fsay(out, "\t\tz: %lf", proj->view_point[2]);
 }

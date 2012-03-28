@@ -4,7 +4,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-void log(char *, ...);
-void flog(FILE *, char *, ...);
+void say(char *, ...);
+void fsay(FILE *, char *, ...);
 
 #endif

@@ -15,7 +15,7 @@ list_t* init_list(void) {
 
 void add_list(list_t *list, obj_t *entity) {
     if (list == NULL) {
-        log("Warning: Tried to add to a NULL list.");
+        say("Warning: Tried to add to a NULL list.");
         return;
     }
 
@@ -33,7 +33,7 @@ void free_list(list_t *list) {
 	obj_t *next = NULL;
 
     if (list == NULL) {
-        log("Warning: Tried to free a NULL list.");
+        say("Warning: Tried to free a NULL list.");
         return;
     }
 

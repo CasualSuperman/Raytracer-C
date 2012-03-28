@@ -18,7 +18,7 @@ obj_t* init_object(FILE *in, object_id obj_type) {
 	if (obj_type > MAX_LIGHT) {
 		material_load(in, &obj->material);
 	} else {
-		log("Light found, not loading material.");
+		say("Light found, not loading material.");
 	}
 
 	return obj;

@@ -50,11 +50,11 @@ bool init_model(FILE *in, model_t *model) {
 				new = init_type[obj_type - FIRST_TYPE](in, obj_type);
 				add_list(model->scene, new);
 			} else {
-				log("Valid object type %u found, but not implemented.", obj_type);
+				say("Valid object type %u found, but not implemented.", obj_type);
 				return_code = false;
 			}
 		} else {
-			log("Unknown object type %u found.", obj_type);
+			say("Unknown object type %u found.", obj_type);
 			return_code = false;
 		}
 	}

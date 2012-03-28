@@ -36,14 +36,14 @@ obj_t* init_sphere(FILE *in, object_id id) {
 	} while (read == 0);
 
 	if (read != 3) {
-		log("Error loading sphere center. Read in %d values.", read);
+		say("Error loading sphere center. Read in %d values.", read);
 		exit(EXIT_BAD_SCENE);
 	}
 
 	read = fscanf(in, "%lf", &(new->radius));
 
 	if (read != 1) {
-		log("Error loading sphere radius. Read in %d values.", read);
+		say("Error loading sphere radius. Read in %d values.", read);
 		exit(EXIT_BAD_SCENE);
 	}
 
@@ -52,8 +52,8 @@ obj_t* init_sphere(FILE *in, object_id id) {
 
 void dump_sphere(FILE *out, obj_t *obj) {
 	sphere_t *sphere = (sphere_t*) obj->priv;
-	flog(out, "Sphere:");
+	fsay(out, "Sphere:");
 	dump_object(out, obj);
 	vecprnN(out, "\tCenter", sphere->center, 3);
-	flog(out, "\tRadius: %lf", sphere->radius);
+	fsay(out, "\tRadius: %lf", sphere->radius);
 }

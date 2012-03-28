@@ -3,7 +3,7 @@
 
 #include "log.h"
 
-void log(char* fmt, ...) {
+void say(char* fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
 	vfprintf(stderr, fmt, args);
@@ -11,7 +11,7 @@ void log(char* fmt, ...) {
 	fprintf(stderr, "\n");
 }
 
-void flog(FILE* out, char* fmt, ...) {
+void fsay(FILE* out, char* fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
 	vfprintf(out, fmt, args);
