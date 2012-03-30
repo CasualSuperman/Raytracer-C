@@ -18,7 +18,7 @@ void make_image(model_t *model) {
 	proj_t  *proj  = model->proj;
 	int     width  = proj->win_size_pixel[0];
 	int     height = proj->win_size_pixel[1];
-	pixel_t *image = Calloc((size_t) (width * height), sizeof(pixel_t));
+	pixel_t *image = Malloc((size_t) (width * height) * sizeof(pixel_t));
 	int     row    = 0;
 	int     col    = 0;
 	size_t  count  = 0;
@@ -32,7 +32,7 @@ void make_image(model_t *model) {
 	}
 	count = fwrite(image, sizeof(pixel_t), (size_t) (height * width), stdout);
 
-	if (count < (sizeof(pixel_t) * (size_t) (width * height))) {
+	if (count < (unsigned long) (width * height)) {
 		say("Warning: Not all image bytes may have been written.");
 	}
 
@@ -78,6 +78,10 @@ static void ray_trace(model_t *model, double base[3], double dir[3],
 		color[0] = closest->material.ambient[0] / total_dist;
 		color[1] = closest->material.ambient[1] / total_dist;
 		color[2] = closest->material.ambient[2] / total_dist;
+	} else {
+		color[0] = 0;
+		color[1] = 0;
+		color[2] = 0;
 	}
 }
 
