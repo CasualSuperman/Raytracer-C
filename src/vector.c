@@ -15,8 +15,8 @@
 double dotN(double* v1, double* v2, int size) {
     double result = 0;
     int i;
-    for (i = 0; i < size; ++i) {
-        result += *v1++ * *v2++;
+    for (i = 0; i < size; ++i, ++v1, ++v2) {
+        result += *v1 * *v2;
     }
     return result;
 }
