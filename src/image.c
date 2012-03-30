@@ -22,8 +22,8 @@ void make_image(model_t *model) {
 
 	print_header(width, height);
 
-	for (int row = 0; row < width; ++row) {
-		for (int col = 0; col < height; ++col) {
+	for (int col = 0; col < height; ++col) {
+		for (int row = 0; row < width; ++row) {
 			make_pixel(model, row, col, pos_to_pixel(row, col, width, image));
 		}
 	}
