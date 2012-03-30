@@ -18,8 +18,6 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 	double *V = base;
 	double P[3] = {0, 0, 0};
 	double n_dot_d = dotN(N, D, 3);
-	double n_dot_q = dotN(N, Q, 3);
-	double n_dot_v = dotN(N, V, 3);
 	double T = 0;
 
 	// If we are parallel to the plane.
@@ -30,7 +28,7 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 		return -1;
 	}
 
-	T = (n_dot_q - n_dot_v) / n_dot_d;
+	T = (dotN(N, Q, 3) - dotN(N, V, 3)) / n_dot_d;
 
 	// dir * Th
 	scaleN(T, D, P, 3);
