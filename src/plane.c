@@ -22,7 +22,6 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 	double n_dot_q = 0;
 	double n_dot_v = 0;
 
-	unitvecN(D, D, 3);
 	n_dot_d = dotN(N, D, 3);
 
 	// If we are parallel to the plane.

@@ -21,7 +21,6 @@ static double hits_sphere(double *base, double *dir, struct object_type *obj) {
 	double discriminant = 0;
 	double T = 0;
 
-	unitvecN(D, D, 3);
 	diffN(sphere->center, base, V, 3);
 
 	a = dotN(D, D, 3);
