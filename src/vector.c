@@ -31,8 +31,8 @@ inline double dotN(double* v1, double* v2, int size) {
  */
 inline void scaleN(double scale, double* vin, double* vout, int size) {
     int i;
-    for (i = 0; i < size; ++i) {
-        *vout++ = *vin++ * scale;
+    for (i = 0; i < size; ++i, ++vin, ++vout) {
+        *vout = *vin * scale;
     }
 }
 
@@ -58,8 +58,8 @@ inline double lengthN(double* vin, int size) {
  */
 inline void diffN(double* v1, double* v2, double* vout, int size) {
     int i;
-    for (i = 0; i < size; ++i) {
-        *vout++ = *v2++ - *v1++;
+    for (i = 0; i < size; ++i, ++v1, ++v2, ++vout) {
+        *vout = *v2 - *v1;
     }
 }
 
@@ -73,8 +73,8 @@ inline void diffN(double* v1, double* v2, double* vout, int size) {
  */
 inline void sumN(double* v1, double* v2, double* vout, int size) {
     int i;
-    for (i = 0; i < size; ++i) {
-        *vout++ = *v2++ + *v1++;
+    for (i = 0; i < size; ++i, ++v1, ++v2, ++vout) {
+        *vout = *v2 + *v1;
     }
 }
 
@@ -88,8 +88,8 @@ inline void sumN(double* v1, double* v2, double* vout, int size) {
 inline void unitvecN(double* vin, double* vout, int size) {
     double mag = 1 / lengthN(vin, size);
 	int i;
-    for (i = 0; i < size; ++i) {
-        *vout++ = *vin++ * mag;
+    for (i = 0; i < size; ++i, ++vin, ++vout) {
+        *vout = *vin * mag;
 	}
 }
 
