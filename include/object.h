@@ -39,6 +39,15 @@ typedef struct object_type {
     double normal[DIMS];
 } obj_t;
 
+/**
+ * init_object - Allocate an object, read in information about it from the
+ * given file descriptor, and return the initialized object.
+ *
+ * @param The file descriptor to read from.
+ * @param The type id of the object being read in.
+ *
+ * @return An initialized object.
+ */
 obj_t* init_object(FILE *, object_id);
 void dump_object(FILE *, obj_t *);
 void free_object(obj_t *);
