@@ -57,7 +57,7 @@ void* Realloc(void *ptr, size_t size) {
 	return new_ptr;
 }
 
-void Free(void *ptr) {
+inline void Free(void *ptr) {
 #ifdef DEBUG_MEMORY
 	say("Freed memory. Allocated objects - %d", --allocated);
 #endif

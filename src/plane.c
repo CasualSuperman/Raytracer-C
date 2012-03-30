@@ -17,12 +17,10 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 	double *D = dir;
 	double *V = base;
 	double P[3] = {0, 0, 0};
+	double n_dot_d = dotN(N, D, 3);
+	double n_dot_q = dotN(N, Q, 3);
+	double n_dot_v = dotN(N, V, 3);
 	double T = 0;
-	double n_dot_d = 0;
-	double n_dot_q = 0;
-	double n_dot_v = 0;
-
-	n_dot_d = dotN(N, D, 3);
 
 	// If we are parallel to the plane.
 	if (isZero(n_dot_d)) {
@@ -31,9 +29,6 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 #endif
 		return -1;
 	}
-
-	n_dot_q = dotN(N, Q, 3);
-	n_dot_v = dotN(N, V, 3);
 
 	T = (n_dot_q - n_dot_v) / n_dot_d;
 
