@@ -12,7 +12,7 @@
  *
  * @return The dot product.
  */
-double dotN(double* v1, double* v2, int size) {
+inline double dotN(double* v1, double* v2, int size) {
     double result = 0;
     int i;
     for (i = 0; i < size; ++i, ++v1, ++v2) {
@@ -29,7 +29,7 @@ double dotN(double* v1, double* v2, int size) {
  * @param vout The output vector.
  * @param size The dimensionality of the vectors.
  */
-void scaleN(double scale, double* vin, double* vout, int size) {
+inline void scaleN(double scale, double* vin, double* vout, int size) {
     int i;
     for (i = 0; i < size; ++i) {
         *vout++ = *vin++ * scale;
@@ -44,13 +44,8 @@ void scaleN(double scale, double* vin, double* vout, int size) {
  *
  * @return The length
  */
-double lengthN(double* vin, int size) {
-    double result = 0;
-    int i;
-    for (i = 0; i < size; ++i, ++vin) {
-        result += *vin * *vin;
-    }
-    return sqrt(result);
+inline double lengthN(double* vin, int size) {
+    return sqrt(dotN(vin, vin, size));
 }
 
 /**
@@ -61,7 +56,7 @@ double lengthN(double* vin, int size) {
  * @param vout Where v2 - v1 is stored.
  * @param size The dimensionality of the vectors.
  */
-void diffN(double* v1, double* v2, double* vout, int size) {
+inline void diffN(double* v1, double* v2, double* vout, int size) {
     int i;
     for (i = 0; i < size; ++i) {
         *vout++ = *v2++ - *v1++;
@@ -76,7 +71,7 @@ void diffN(double* v1, double* v2, double* vout, int size) {
  * @param vout Where v1 + v2 is stored.
  * @param size The dimensionality of the vectors.
  */
-void sumN(double* v1, double* v2, double* vout, int size) {
+inline void sumN(double* v1, double* v2, double* vout, int size) {
     int i;
     for (i = 0; i < size; ++i) {
         *vout++ = *v2++ + *v1++;
@@ -90,7 +85,7 @@ void sumN(double* v1, double* v2, double* vout, int size) {
  * @param vout The output vector.
  * @param size The dimensionality of th vectors.
  */
-void unitvecN(double* vin, double* vout, int size) {
+inline void unitvecN(double* vin, double* vout, int size) {
     double mag = 1 / lengthN(vin, size);
 	int i;
     for (i = 0; i < size; ++i) {

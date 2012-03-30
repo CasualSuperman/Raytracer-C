@@ -33,8 +33,6 @@ static double hits_sphere(double *base, double *dir, struct object_type *obj) {
 
 	discriminant = (b * b - 4 * a * c);
 
-	T = (-b - sqrt(discriminant)) / (2 * a);
-
 #ifdef DEBUG_SPHERE
 	say("Sphere discriminant is %lf (T = %lf).", discriminant, T);
 #endif
@@ -42,6 +40,8 @@ static double hits_sphere(double *base, double *dir, struct object_type *obj) {
 	if (discriminant <= 0) {
 		return -1;
 	}
+
+	T = (-b - sqrt(discriminant)) / (2 * a);
 
 	return T;
 }
