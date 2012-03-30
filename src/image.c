@@ -19,23 +19,27 @@ void make_image(model_t *model) {
 	int     width  = proj->win_size_pixel[0];
 	int     height = proj->win_size_pixel[1];
 	pixel_t *image = Malloc((size_t) (width * height) * sizeof(pixel_t));
-	int     row    = 0;
 	int     col    = 0;
 	size_t  count  = 0;
 
-	print_header(width, height);
-
-	for (col = 0; col < height; ++col) {
-		for (row = 0; row < width; ++row) {
+    // Loop through the pixels.
+	for (; col < height; ++col) {
+	    int row = 0;
+		for (; row < width; ++row) {
 			make_pixel(model, row, col, pos_to_pixel(row, col, width, image));
 		}
 	}
+
+    // Give them the image.
+	print_header(width, height);
 	count = fwrite(image, sizeof(pixel_t), (size_t) (height * width), stdout);
 
+    // Make sure we wrote everything. Also use our return value.
 	if (count < (unsigned long) (width * height)) {
 		say("Warning: Not all image bytes may have been written.");
 	}
 
+    // Free our pixel map.
 	Free(image);
 }
 
