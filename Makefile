@@ -24,7 +24,8 @@ DBGS = $(addprefix -DDEBUG_,$(DEBUG))
 #################           Set up compilation flags           #################
 # Commands for compiling with Clang
 CC.clang = clang -fcolor-diagnostics
-OPTIMIZE.clang = -O4
+OPTIMIZE.clang3 = -O4
+OPTIMIZE.clang2 = -O2
 ANALYZE.clang = $(CC) $(CMETA) $(INCLUDE) --analyze
 WARN.clang2 = -Wall -Wextra -pedantic -Werror
 WARN.clang3 = -Weverything -Werror
@@ -54,8 +55,10 @@ ifeq (clang, ${HAS_CLANG})
 	# If we're on an old version, we don't have -Weverything.
     ifeq (3, ${CLANG_VER})
         WARN.clang = ${WARN.clang3}
+		OPTIMIZE.clang = ${OPTIMIZE.clang3}
     else
         WARN.clang = ${WARN.clang2}
+		OPTIMIZE.clang = ${OPTIMIZE.clang2}
     endif
 
     CC = ${CC.clang}

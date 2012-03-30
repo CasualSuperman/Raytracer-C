@@ -37,7 +37,7 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 	// base + (dir * Th)
 	sumN(V, P, P, 3);
 
-	if (P[2] > 0) {
+	if (P[2] > 0 && !isZero(P[2])) {
 #ifdef DEBUG_PLANE
 		say("Plane is behind viewer. (T = %lf)", T);
 #endif

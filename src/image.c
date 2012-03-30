@@ -96,7 +96,7 @@ static void make_pixel(model_t *model, int row, int col, pixel_t *pix) {
 	diffN(model->proj->view_point, base, dir, 3);
 	unitvecN(dir, dir, 3);
 
-#ifdef DEBUG_PIXEL
+#ifdef DEBUG_RAY
 	say("");
 
 	say("Tracing pixel %d, %d. - %lf %lf (direction %lf %lf %lf)", row, col,
@@ -110,6 +110,10 @@ static void make_pixel(model_t *model, int row, int col, pixel_t *pix) {
 			color[i] = 1;
 		}
 	}
+
+#ifdef DEBUG_PIXEL
+    say("Pixel color: #%02hhx%02hhx%02hhx", color[0], color[1], color[2]);
+#endif
 
 	pix->r = (unsigned char) (color[0] * 255);
 	pix->g = (unsigned char) (color[1] * 255);
