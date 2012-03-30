@@ -8,6 +8,10 @@
 #include "object.h"
 #include "projection.h"
 
+/**
+ * model_t - A model of a scene that we can raytrace. It contains a projection,
+ * a list of lights, and a list of objects.
+ */
 typedef struct {
     proj_t *proj;
     list_t *lights;
