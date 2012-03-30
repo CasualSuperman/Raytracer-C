@@ -45,5 +45,5 @@ void free_list(list_t *list) {
         node = next;
     }
 
-    free(list);
+    Free(list);
 }

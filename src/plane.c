@@ -18,10 +18,13 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 	double *V = base;
 	double P[3] = {0, 0, 0};
 	double T = 0;
+	double n_dot_d = 0;
+	double n_dot_q = 0;
+	double n_dot_v = 0;
 
 	unitvecN(D, D, 3);
+	n_dot_d = dotN(N, D, 3);
 
-	double n_dot_d = dotN(N, D, 3);
 	// If we are parallel to the plane.
 	if (isZero(n_dot_d)) {
 #ifdef DEBUG_PLANE
@@ -30,8 +33,8 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 		return -1;
 	}
 
-	double n_dot_q = dotN(N, Q, 3);
-	double n_dot_v = dotN(N, V, 3);
+	n_dot_q = dotN(N, Q, 3);
+	n_dot_v = dotN(N, V, 3);
 
 	T = (n_dot_q - n_dot_v) / n_dot_d;
 
@@ -59,7 +62,7 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 
 obj_t* init_plane(FILE *in, object_id id) {
 	// Initialize our objects and variables.
-	char     *buf = Calloc((size_t) BUFFER_SIZE, sizeof(char));
+	char    *buf = Calloc((size_t) BUFFER_SIZE, sizeof(char));
 	obj_t   *obj = init_object(in, id);
 	plane_t *new = Malloc(sizeof(plane_t));
 	int     read = 0;
@@ -72,7 +75,7 @@ obj_t* init_plane(FILE *in, object_id id) {
 	// While we're reading empty lines/comments.
 	do {
 		if (buf != fgets(buf, BUFFER_SIZE, in)) {
-			free(buf);
+			Free(buf);
 			say("Unexpected end of file while reading plane normal.");
 			exit(EXIT_BAD_SCENE);
 		}
@@ -87,7 +90,7 @@ obj_t* init_plane(FILE *in, object_id id) {
 	}
 
 	if (buf != fgets(buf, BUFFER_SIZE, in)) {
-		free(buf);
+		Free(buf);
 		say("Unexpected end of file while reading plane center.");
 		exit(EXIT_BAD_SCENE);
 	}
@@ -103,6 +106,8 @@ obj_t* init_plane(FILE *in, object_id id) {
 
 	// Preload the normal for a last hit on a plane, since it won't change.
 	unitvecN(new->normal, obj->normal, 3);
+
+	Free(buf);
 
 	return obj;
 }

@@ -28,6 +28,6 @@ void dump_object(FILE *out, obj_t* obj) {
 }
 
 void free_object(obj_t *obj) {
-	free(obj->priv);
-	free(obj);
+	Free(obj->priv);
+	Free(obj);
 }

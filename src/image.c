@@ -19,16 +19,24 @@ void make_image(model_t *model) {
 	int     width  = proj->win_size_pixel[0];
 	int     height = proj->win_size_pixel[1];
 	pixel_t *image = Calloc((size_t) (width * height), sizeof(pixel_t));
+	int     row    = 0;
+	int     col    = 0;
+	size_t  count  = 0;
 
 	print_header(width, height);
 
-	for (int col = 0; col < height; ++col) {
-		for (int row = 0; row < width; ++row) {
+	for (col = 0; col < height; ++col) {
+		for (row = 0; row < width; ++row) {
 			make_pixel(model, row, col, pos_to_pixel(row, col, width, image));
 		}
 	}
-	fwrite(image, sizeof(pixel_t), (size_t) (height * width), stdout);
-	free(image);
+	count = fwrite(image, sizeof(pixel_t), (size_t) (height * width), stdout);
+
+	if (count < (sizeof(pixel_t) * (size_t) (width * height))) {
+		say("Warning: Not all image bytes may have been written.");
+	}
+
+	Free(image);
 }
 
 static obj_t* find_closest_obj(list_t *scene, double base[3], double dir[3],
@@ -48,7 +56,7 @@ static obj_t* find_closest_obj(list_t *scene, double base[3], double dir[3],
 	}
 
 	// This is to silence the unused variable error.
-	unknown = NULL;
+	*(&unknown) = NULL;
 
 	if (closest != NULL) {
 #ifdef DEBUG_HIT
@@ -77,6 +85,7 @@ static void make_pixel(model_t *model, int row, int col, pixel_t *pix) {
 	double dir[3]   = {0, 0, 0};
 	double base[3]  = {0, 0, 0};
 	double color[3] = {0, 0, 0};
+	int i;
 
 	map_pixel_to_world(model->proj, row, col, base);
 
@@ -92,7 +101,7 @@ static void make_pixel(model_t *model, int row, int col, pixel_t *pix) {
 #endif
 	ray_trace(model, model->proj->view_point, dir, color, 0.0, NULL);
 
-	for (int i = 0; i < 3; ++i) {
+	for (i = 0; i < 3; ++i) {
 		if (color[i] > 1) {
 			color[i] = 1;
 		}

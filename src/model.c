@@ -2,11 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "Alloc.h"
 #include "list.h"
 #include "log.h"
+
 #include "model.h"
 #include "object.h"
-
 #include "plane.h"
 #include "raytracer.h"
 #include "sphere.h"
@@ -28,7 +29,7 @@ static debug_shape debug_type[] = {
 	dump_plane
 };
 
-const int NUM_TYPES = sizeof(init_type) / sizeof(void*);
+const int NUM_TYPES = (int) (sizeof(init_type) / sizeof(void*));
 
 bool init_model(FILE *in, model_t *model) {
     obj_t     *new              = NULL; // The new object.
@@ -45,7 +46,7 @@ bool init_model(FILE *in, model_t *model) {
 		if (matched != 1) continue;
 
 		// Otherwise, load up the object type.
-		if (obj_type >= FIRST_TYPE && (obj_type - FIRST_TYPE) < NUM_TYPES) {
+		if (obj_type >= FIRST_TYPE && (obj_type - FIRST_TYPE) < (int) NUM_TYPES) {
 			if (init_type[obj_type - FIRST_TYPE] != NULL) {
 				new = init_type[obj_type - FIRST_TYPE](in, obj_type);
 				add_list(model->scene, new);
@@ -74,8 +75,8 @@ void dump_model(FILE *out, model_t *model) {
 }
 
 void free_model(model_t *model) {
-	free(model->proj);
+	Free(model->proj);
 	free_list(model->lights);
 	free_list(model->scene);
-	free(model);
+	Free(model);
 }

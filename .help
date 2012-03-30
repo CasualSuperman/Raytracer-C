@@ -1,0 +1,42 @@
+Available targets:
+    all (default):
+        Compiles all dirty modules and links an execuable, ray. Runs all
+        targets marked with a *.
+
+    debug:
+        Cleans the build area, then generates an executable with debug symbols
+        included.
+
+    profile:
+        Build including profiling information. Runs clean first.
+
+  * ray:
+        Links an executable using the objects stored in ./obj/ Saves error
+        information from the linking process in ./main.err
+
+    nolink:    
+        Runs analyze, then compiles all dirty modules. Like ray without the
+        link step.
+    
+  * analyze:
+        Runs clang, or splint to analyze the modules, and prints the output.
+
+    clean:
+        Removes all object, error, binary, and profiling files.
+
+    help:
+        Prints this information.
+
+Available flags:
+    DEBUG:
+        Values include PIXELS, SHAPES, SPHERES, OBJECTS, MEMORY and PLANES. Only
+        availble when using the debug target.
+
+        Example:
+            make debug DEBUG="PIXELS PLANES"
+
+    HAS_CLANG:
+        Set this to a value other than "clang" when invoking make to use gcc
+        and splint.
+
+This project will use clang to compile and do code analysis, if it is availble.

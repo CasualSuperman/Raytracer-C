@@ -15,21 +15,26 @@ static double hits_sphere(double *base, double *dir, struct object_type *obj) {
 	double *D   = dir;
 	double V[3] = {0, 0, 0};
 	double r    = sphere->radius;
+	double a    = 0;
+	double b    = 0;
+	double c    = 0;
+	double discriminant = 0;
+	double T = 0;
 
 	unitvecN(D, D, 3);
 	diffN(sphere->center, base, V, 3);
 
-	double a = dotN(D, D, 3);
-	double b = 2 * dotN(V, D, 3);
-	double c = dotN(V, V, 3);
-	c -= r * r;
+	a = dotN(D, D, 3);
+	b = 2 * dotN(V, D, 3);
+	c = dotN(V, V, 3) - r * r;
 
 #ifdef DEBUG_SPHERE
 	say("a: %lf, b: %lf, c: %lf", a, b, c);
 #endif
-	double discriminant = (b * b - 4 * a * c);
 
-	double T = (-b - sqrt(discriminant)) / (2 * a);
+	discriminant = (b * b - 4 * a * c);
+
+	T = (-b - sqrt(discriminant)) / (2 * a);
 
 #ifdef DEBUG_SPHERE
 	say("Sphere discriminant is %lf (T = %lf).", discriminant, T);
@@ -57,7 +62,7 @@ obj_t* init_sphere(FILE *in, object_id id) {
 	// While we're reading empty lines/comments.
 	do {
 		if (buf != fgets(buf, BUFFER_SIZE, in)) {
-			free(buf);
+			Free(buf);
 			say("Unexpected end of file while reading sphere center.");
 			exit(EXIT_BAD_SCENE);
 		}
@@ -69,18 +74,18 @@ obj_t* init_sphere(FILE *in, object_id id) {
 
 	if (read != 3) {
 		say("Error loading sphere center. Read in %d values.", read);
-		free(buf);
+		Free(buf);
 		exit(EXIT_BAD_SCENE);
 	}
 
 	if (buf != fgets(buf, BUFFER_SIZE, in)) {
-		free(buf);
+		Free(buf);
 		say("Unexpected end of file while reading sphere radius.");
 		exit(EXIT_BAD_SCENE);
 	}
 		
 	read = sscanf(buf, "%lf", &(new->radius));
-	free(buf);
+	Free(buf);
 
 	if (read != 1) {
 		say("Error loading sphere radius. Read in %d values.", read);
