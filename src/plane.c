@@ -59,6 +59,7 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 
 obj_t* init_plane(FILE *in, object_id id) {
 	// Initialize our objects and variables.
+	char     *buf = Calloc((size_t) BUFFER_SIZE, sizeof(char));
 	obj_t   *obj = init_object(in, id);
 	plane_t *new = Malloc(sizeof(plane_t));
 	int     read = 0;
@@ -70,19 +71,30 @@ obj_t* init_plane(FILE *in, object_id id) {
 	// Load in the information specific to a sphere.
 	// While we're reading empty lines/comments.
 	do {
-		read = fscanf(in, "%lf %lf %lf %*s %*[\n]", &(new->normal[0]),
-													&(new->normal[1]),
-													&(new->normal[2]));
-	} while (read == 0);
+		if (buf != fgets(buf, BUFFER_SIZE, in)) {
+			free(buf);
+			say("Unexpected end of file while reading plane normal.");
+			exit(EXIT_BAD_SCENE);
+		}
+		read = sscanf(buf, "%lf %lf %lf %*s %*[\n]", &(new->normal[0]),
+													 &(new->normal[1]),
+													 &(new->normal[2]));
+	} while (read == -1);
 
 	if (read != 3) {
 		say("Error loading plane normal. Read in %d values.", read);
 		exit(EXIT_BAD_SCENE);
 	}
 
-	read = fscanf(in, "%lf %lf %lf", &(new->center[0]),
-									 &(new->center[1]),
-									 &(new->center[2]));
+	if (buf != fgets(buf, BUFFER_SIZE, in)) {
+		free(buf);
+		say("Unexpected end of file while reading plane center.");
+		exit(EXIT_BAD_SCENE);
+	}
+
+	read = sscanf(buf, "%lf %lf %lf", &(new->center[0]),
+									  &(new->center[1]),
+									  &(new->center[2]));
 
 	if (read != 3) {
 		say("Error loading plane center. Read in %d values.", read);
