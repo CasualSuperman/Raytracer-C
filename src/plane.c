@@ -24,7 +24,9 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 	double n_dot_d = dotN(N, D, 3);
 	// If we are parallel to the plane.
 	if (isZero(n_dot_d)) {
-//		say("Plane is parallel.");
+#ifdef DEBUG_PLANE
+		say("Plane is parallel.");
+#endif
 		return -1;
 	}
 
@@ -39,14 +41,18 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 	sumN(V, P, P, 3);
 
 	if (P[2] > 0) {
+#ifdef DEBUG_PLANE
 		say("Plane is behind viewer. (T = %lf)", T);
+#endif
 		return -1;
 	}
 
 	// Copy hit location to hitloc
 	memcpy(obj->hitloc, P, sizeof(double) * 3);
 
+#ifdef DEBUG_PLANE
 	say("Hit plane %d at point %lf %lf %lf (T = %lf)", obj->obj_id, P[0], P[1], P[2], T);
+#endif
 
 	return T;
 }

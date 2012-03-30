@@ -2,5 +2,5 @@ TODO
 ====
 
 * Work on README.
-* Write hit_sphere.
+* Investigate error pixels on edges.
 * Comments.

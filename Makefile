@@ -5,8 +5,10 @@
 #################           Set up global file lists           #################
 GLOBALS = Makefile
 MODULES = Alloc image list log main material model object plane projection raytracer sphere vector
+DEBUG =
 SRCS = $(addprefix src/,$(addsuffix .c,$(MODULES)))
 OBJS = $(addprefix obj/,$(addsuffix .o,$(MODULES)))
+DBGS = $(addprefix -D,$(DEBUG))
 
 #################             Set up phony targets             #################
 # Don't print the command being run.
@@ -33,7 +35,7 @@ ifeq (clang, ${HAS_CLANG})
   	clang -v 2>&1 | grep version | cut -f3 -d" " | cut -f1 -d. \
   )
   CC = clang -fcolor-diagnostics
-  OPTIMIZE = -O0
+  OPTIMIZE = -O4
   ANALYZE = $(CC) $(CMETA) $(INCLUDE) --analyze
   ifeq (3, ${CLANG_VER})
     WARN = -Weverything -Werror
@@ -58,11 +60,11 @@ CMETA = -std=c99
 CFLAGS = -march=native -pipe
 
 PROFILE = -pg
-DEBUG   = -g -O0 -ggdb
+DEBUGS  = -g -O0 -ggdb
 
 # All rolled into one.
-LINK  = $(CC) $(OPTIMIZE) $(INCLUDE) $(CFLAGS) $(WARN) -lm
-BUILD = $(CC) $(OPTIMIZE) $(INCLUDE) $(CFLAGS) $(WARN) $(CMETA) $(DEBUG)
+LINK  = $(CC) $(OPTIMIZE) $(INCLUDE) $(CFLAGS) $(WARN) $(DBGS) -lm
+BUILD = $(CC) $(OPTIMIZE) $(INCLUDE) $(CFLAGS) $(WARN) $(CMETA) $(DEBUGS) $(DBGS)
 
 #################         Actual Makefile targets list         #################
 all: ray

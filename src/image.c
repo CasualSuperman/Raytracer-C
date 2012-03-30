@@ -38,7 +38,6 @@ static obj_t* find_closest_obj(list_t *scene, double base[3], double dir[3],
 	obj_t  *obj     = scene->head;
 
 	while (obj != NULL) {
-//		say("Testing against shape %d.", obj->obj_id);
 		double this_dist = obj->hits(base, dir, obj);
 
 		if (this_dist >= 0 && this_dist < close) {
@@ -52,7 +51,10 @@ static obj_t* find_closest_obj(list_t *scene, double base[3], double dir[3],
 	unknown = NULL;
 
 	if (closest != NULL) {
-		say("Hit closest object with id %d (Distance = %lf).", closest->obj_id, close);
+#ifdef DEBUG_HIT
+		say("Hit closest object with id %d (Distance = %lf).", closest->obj_id,
+			close);
+#endif
 		*distance = close;
 	}
 
@@ -81,11 +83,13 @@ static void make_pixel(model_t *model, int row, int col, pixel_t *pix) {
 	diffN(model->proj->view_point, base, dir, 3);
 	unitvecN(dir, dir, 3);
 
+#ifdef DEBUG_PIXEL
 	say("");
 
 	say("Tracing pixel %d, %d. - %lf %lf (direction %lf %lf %lf)", row, col,
 		base[0], base[1],
 		dir[0], dir[1], dir[2]);
+#endif
 	ray_trace(model, model->proj->view_point, dir, color, 0.0, NULL);
 
 	for (int i = 0; i < 3; ++i) {
