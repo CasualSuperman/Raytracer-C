@@ -54,7 +54,7 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 
 obj_t* init_plane(FILE *in, object_id id) {
 	// Initialize our objects and variables.
-	char    *buf = Calloc((size_t) BUFFER_SIZE, sizeof(char));
+	char    *buf = Malloc((size_t) BUFFER_SIZE * sizeof(char));
 	obj_t   *obj = init_object(in, id);
 	plane_t *new = Malloc(sizeof(plane_t));
 	int     read = 0;
