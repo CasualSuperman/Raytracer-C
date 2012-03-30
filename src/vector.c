@@ -47,9 +47,8 @@ void scaleN(double scale, double* vin, double* vout, int size) {
 double lengthN(double* vin, int size) {
     double result = 0;
     int i;
-    for (i = 0; i < size; ++i) {
+    for (i = 0; i < size; ++i, ++vin) {
         result += *vin * *vin;
-        vin++;
     }
     return sqrt(result);
 }
