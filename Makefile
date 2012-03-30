@@ -22,6 +22,19 @@ DBGS = $(addprefix -DDEBUG_,$(DEBUG))
 .SUFFIXES:
 
 #################           Set up compilation flags           #################
+# Commands for compiling with Clang
+CC.clang = clang -fcolor-diagnostics
+OPTIMIZE.clang = -O4
+ANALYZE.clang = $(CC) $(CMETA) $(INCLUDE) --analyze
+WARN.clang2 = -Wall -Wextra -pedantic -Werror
+WARN.clang3 = -Weverything -Werror
+
+# Commands for compiling with gcc
+CC.gcc = gcc -fno-builtin
+WARN.gcc = -Wall -Wextra -Werror -pedantic -Wmissing-prototypes
+OPTIMIZE.gcc = -O2
+ANALYZE.gcc = splint $(INCLUDE) -weak -fixedformalarray
+
 # See if we have clang installed.
 HAS_CLANG = $(shell \
   if which clang &> /dev/null; \
@@ -33,27 +46,27 @@ HAS_CLANG = $(shell \
 
 # If we do, use it.
 ifeq (clang, ${HAS_CLANG})
-    CC = clang -fcolor-diagnostics
-    OPTIMIZE = -O4
-    ANALYZE = $(CC) $(CMETA) $(INCLUDE) --analyze
-    
     # See which version of clang we're using.
     CLANG_VER = $(shell \
     	clang -v 2>&1 | grep version | cut -f3 -d" " | cut -f1 -d. \
     )
 
-    # If we're on an old version, we don't have -Weverything.
+	# If we're on an old version, we don't have -Weverything.
     ifeq (3, ${CLANG_VER})
-        WARN = -Weverything -Werror
+        WARN.clang = ${WARN.clang3}
     else
-        WARN = -Wall -Wextra -pedantic -Werror
+        WARN.clang = ${WARN.clang2}
     endif
+
+    CC = ${CC.clang}
+    WARN = ${WARN.clang}
+    OPTIMIZE = ${OPTIMIZE.clang}
+    ANALYZE = ${ANALYZE.clang}
 else
-    # Use boring, old gcc.
-    CC = gcc -fno-builtin
-    WARN = -Wall -Wextra -Werror -pedantic -Wmissing-prototypes
-    OPTIMIZE = -O2
-    ANALYZE = splint $(INCLUDE) -weak -fixedformalarray
+    CC = ${CC.gcc}
+    WARN = ${WARN.gcc}
+    OPTIMIZE = ${OPTIMIZE.gcc}
+    ANALYZE = ${ANALYZE.gcc}
 endif
 
 # Add the include folder to the search path.
@@ -71,7 +84,8 @@ PROFILE = -pg
 DEBUGS  = -g -O0 -ggdb
 
 BUILD.debug = $(CC) -O0 $(INCLUDE) $(CMETA) $(WARN) $(DEBUGS) $(DBGS) -lm
-BUILD.profile = $(CC) $(OPTIMIZE) $(INCLUDE) $(CMETA) $(WARN) $(PROFILE) -lm
+BUILD.profile = $(CC.gcc) $(OPTIMIZE.gcc) $(INCLUDE) $(CMETA) $(WARN.gcc) \
+				$(PROFILE) -lm
 
 # All rolled into one.
 LINK  = $(CC) $(OPTIMIZE) $(INCLUDE) $(CFLAGS) $(WARN) $(DBGS) -lm
