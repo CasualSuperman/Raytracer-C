@@ -8,7 +8,7 @@
 // Doing this slightly differently for type-safety.
 typedef enum {
     FIRST_TYPE = 10,
-	MAX_LIGHT  = 11,
+    MAX_LIGHT  = 11,
 
     LIGHT      = 10,
     SPOTLIGHT  = 11,

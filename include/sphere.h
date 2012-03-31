@@ -4,8 +4,8 @@
 #include "object.h"
 
 typedef struct {
-	double center[3];
-	double radius;
+    double center[3];
+    double radius;
 } sphere_t;
 
 /**

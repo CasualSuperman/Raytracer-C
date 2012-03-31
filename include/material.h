@@ -7,9 +7,9 @@
  * material_t - Storage for information about the material of a shape.
  */
 typedef struct {
-	double ambient[3];
-	double diffuse[3];
-	double specular[3];
+    double ambient[3];
+    double diffuse[3];
+    double specular[3];
 } material_t;
 
 /**

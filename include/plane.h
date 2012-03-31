@@ -4,8 +4,8 @@
 #include "object.h"
 
 typedef struct {
-	double center[3];
-	double normal[3];
+    double center[3];
+    double normal[3];
 } plane_t;
 
 /**

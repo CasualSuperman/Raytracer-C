@@ -5,8 +5,8 @@
 
 typedef struct {
     int    win_size_pixel[2];
-	double win_size_world[2];
-	double view_point[3];
+    double win_size_world[2];
+    double view_point[3];
 } proj_t;
 
 /**

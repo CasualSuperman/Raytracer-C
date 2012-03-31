@@ -9,8 +9,8 @@
 enum {
 //  EXIT_SUCCESS = 0,
     EXIT_FAILED_ALLOC = 1,
-	EXIT_BAD_PARAMS   = 2,
-	EXIT_BAD_SCENE    = 3
+    EXIT_BAD_PARAMS   = 2,
+    EXIT_BAD_SCENE    = 3
 };
 
 #endif

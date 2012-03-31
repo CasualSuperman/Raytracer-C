@@ -8,9 +8,9 @@
 #include "projection.h"
 
 enum {
-	// The size of a default character buffer.
-	BUFFER_SIZE = 256,
-	// The number of dimensions we're rendering in.
+    // The size of a default character buffer.
+    BUFFER_SIZE = 256,
+    // The number of dimensions we're rendering in.
     DIMS = 3
 };
 
