@@ -29,11 +29,11 @@ Available targets:
 
 Available flags:
     DEBUG:
-        Values include PIXELS, SHAPES, SPHERES, OBJECTS, MEMORY and PLANES. Only
-        availble when using the debug target.
+        Values include PIXEL, RAY, SPHERE, MEMORY and PLANE.
+        Only availble when using the debug target.
 
         Example:
-            make debug DEBUG="PIXELS PLANES"
+            make debug DEBUG="PIXEL PLANE MEMORY"
 
     HAS_CLANG:
         Set this to a value other than "clang" when invoking make to use gcc
