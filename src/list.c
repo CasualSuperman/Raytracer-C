@@ -7,9 +7,7 @@
 #include "object.h"
 
 list_t* init_list(void) {
-    list_t *list = Malloc(sizeof(list_t));
-    list->head = NULL;
-    list->tail = NULL;
+    list_t *list = Calloc(1, sizeof(list_t));
     return list;
 }
 

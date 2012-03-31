@@ -48,7 +48,7 @@ static double hits_sphere(double *base, double *dir, struct object_type *obj) {
 
 obj_t* init_sphere(FILE *in, object_id id) {
 	// Initialize our objects and variables.
-	char     *buf = Calloc((size_t) BUFFER_SIZE, sizeof(char));
+	char     *buf = Malloc((size_t) BUFFER_SIZE * sizeof(char));
 	obj_t    *obj = init_object(in, id);
 	sphere_t *new = Malloc(sizeof(sphere_t));
 	int      read = 0;
@@ -65,7 +65,7 @@ obj_t* init_sphere(FILE *in, object_id id) {
 			say("Unexpected end of file while reading sphere center.");
 			exit(EXIT_BAD_SCENE);
 		}
-		
+
 		read = sscanf(buf, "%lf %lf %lf", &(new->center[0]),
 										  &(new->center[1]),
 										  &(new->center[2]));
@@ -82,7 +82,7 @@ obj_t* init_sphere(FILE *in, object_id id) {
 		say("Unexpected end of file while reading sphere radius.");
 		exit(EXIT_BAD_SCENE);
 	}
-		
+
 	read = sscanf(buf, "%lf", &(new->radius));
 	Free(buf);
 

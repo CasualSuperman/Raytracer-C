@@ -18,8 +18,6 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 	double *V = base;
 	double P[3] = {0, 0, 0};
 	double n_dot_d = dotN(N, D, 3);
-	double n_dot_q = dotN(N, Q, 3);
-	double n_dot_v = dotN(N, V, 3);
 	double T = 0;
 
 	// If we are parallel to the plane.
@@ -30,14 +28,14 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 		return -1;
 	}
 
-	T = (n_dot_q - n_dot_v) / n_dot_d;
+	T = (dotN(N, Q, 3) - dotN(N, V, 3)) / n_dot_d;
 
 	// dir * Th
 	scaleN(T, D, P, 3);
 	// base + (dir * Th)
 	sumN(V, P, P, 3);
 
-	if (P[2] > 0) {
+	if (P[2] > 0 && !isZero(P[2])) {
 #ifdef DEBUG_PLANE
 		say("Plane is behind viewer. (T = %lf)", T);
 #endif
@@ -56,7 +54,7 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 
 obj_t* init_plane(FILE *in, object_id id) {
 	// Initialize our objects and variables.
-	char    *buf = Calloc((size_t) BUFFER_SIZE, sizeof(char));
+	char    *buf = Malloc((size_t) BUFFER_SIZE * sizeof(char));
 	obj_t   *obj = init_object(in, id);
 	plane_t *new = Malloc(sizeof(plane_t));
 	int     read = 0;

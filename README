@@ -1,2 +1,5 @@
-Comments in header files detail the outward functionality.
-Comments in source files explain implementation details.
+run: make help
+For information about each target and the methods of compilation.
+
+Comments in header files (include/) detail the outward functionality.
+Comments in source files (src/) explain implementation details.
