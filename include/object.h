@@ -49,7 +49,21 @@ typedef struct object_type {
  * @return An initialized object.
  */
 obj_t* init_object(FILE *, object_id);
+
+/**
+ * dump_object - Print information about the given object to the given output
+ * stream.
+ *
+ * @param Output stream.
+ * @param The object to dump.
+ */
 void dump_object(FILE *, obj_t *);
+
+/**
+ * free_object - Free the given object and all its sub-data.
+ *
+ * @param The object to free.
+ */
 void free_object(obj_t *);
 
 #endif
