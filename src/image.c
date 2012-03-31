@@ -7,12 +7,11 @@
 #include "image.h"
 #include "model.h"
 #include "projection.h"
+#include "raytracer.h"
 #include "vector.h"
 
 static void print_header(int, int);
 static pixel_t* pos_to_pixel(int, int, int, pixel_t *);
-static void make_pixel(model_t *, int, int, pixel_t *);
-static void map_pixel_to_world(proj_t *, int, int, double *);
 
 void make_image(model_t *model) {
 	proj_t  *proj  = model->proj;
@@ -43,53 +42,7 @@ void make_image(model_t *model) {
 	Free(image);
 }
 
-static obj_t* find_closest_obj(list_t *scene, double base[3], double dir[3],
-							   void *unknown, double *distance) {
-	double close    = INFINITY;
-	obj_t  *closest = NULL;
-	obj_t  *obj     = scene->head;
-
-	while (obj != NULL) {
-		double this_dist = obj->hits(base, dir, obj);
-
-		if (this_dist >= 0 && this_dist < close) {
-			close = this_dist;
-			closest = obj;
-		}
-		obj = obj->next;
-	}
-
-	// This is to silence the unused variable error.
-	*(&unknown) = NULL;
-
-	if (closest != NULL) {
-#ifdef DEBUG_HIT
-		say("Hit closest object with id %d (Distance = %lf).", closest->obj_id,
-			close);
-#endif
-		*distance = close;
-	}
-
-	return closest;
-}
-
-static void ray_trace(model_t *model, double base[3], double dir[3],
-					  double color[3], double total_dist, obj_t *last_hit) {
-	obj_t *closest = find_closest_obj(model->scene, base, dir, last_hit,
-									  &total_dist);
-
-	if (closest != NULL) {
-		color[0] = closest->material.ambient[0] / total_dist;
-		color[1] = closest->material.ambient[1] / total_dist;
-		color[2] = closest->material.ambient[2] / total_dist;
-	} else {
-		color[0] = 0;
-		color[1] = 0;
-		color[2] = 0;
-	}
-}
-
-static void make_pixel(model_t *model, int row, int col, pixel_t *pix) {
+void make_pixel(model_t *model, int row, int col, pixel_t *pix) {
 	double dir[3]   = {0, 0, 0};
 	double base[3]  = {0, 0, 0};
 	double color[3] = {0, 0, 0};
@@ -100,7 +53,7 @@ static void make_pixel(model_t *model, int row, int col, pixel_t *pix) {
 	diffN(model->proj->view_point, base, dir, 3);
 	unitvecN(dir, dir, 3);
 
-#ifdef DEBUG_RAY
+#if defined DEBUG_RAY || defined DEBUG_PIXEL
 	say("");
 
 	say("Tracing pixel %d, %d. - %lf %lf (direction %lf %lf %lf)", row, col,
@@ -122,18 +75,6 @@ static void make_pixel(model_t *model, int row, int col, pixel_t *pix) {
 	pix->r = (unsigned char) (color[0] * 255);
 	pix->g = (unsigned char) (color[1] * 255);
 	pix->b = (unsigned char) (color[2] * 255);
-}
-
-static void map_pixel_to_world(proj_t *proj, int row, int col, double *pos) {
-	*(pos + 0) = (double) row / (proj->win_size_pixel[0] - 1)
-							  *  proj->win_size_world[0]
-							  - (proj->win_size_world[0] / 2.0);
-
-	*(pos + 1) = (double) col / (-proj->win_size_pixel[1] - 1)
-							  *  proj->win_size_world[1]
-							  + (proj->win_size_world[1] / 2.0);
-
-	*(pos + 2) = 0;
 }
 
 static void print_header(int width, int height) {

@@ -7,6 +7,7 @@
 
 #include "object.h"
 #include "plane.h"
+#include "raytracer.h"
 #include "vector.h"
 
 // Th = (N dot Q  - N dot V) / (N dot D)

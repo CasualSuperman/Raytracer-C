@@ -6,10 +6,10 @@
 #include "log.h"
 
 #include "object.h"
+#include "raytracer.h"
 #include "sphere.h"
 #include "vector.h"
 
-// TODO: Write this.
 static double hits_sphere(double *base, double *dir, struct object_type *obj) {
 	sphere_t *sphere = (sphere_t *) obj->priv;
 	double *D   = dir;

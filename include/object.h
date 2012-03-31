@@ -4,7 +4,6 @@
 #include <stdio.h>
 
 #include "material.h"
-#include "raytracer.h"
 
 // Doing this slightly differently for type-safety.
 typedef enum {
@@ -35,8 +34,8 @@ typedef struct object_type {
     double emissivity[3];
     void *priv;
 
-    double hitloc[DIMS];
-    double normal[DIMS];
+    double hitloc[3];
+    double normal[3];
 } obj_t;
 
 /**
