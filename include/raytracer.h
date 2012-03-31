@@ -10,6 +10,13 @@ enum {
     DIMS = 3
 };
 
-bool isZero(double);
+/**
+ * is_zero - Returns if the given double is within a certain tolerated range of zero.
+ *
+ * @param The double to compare to zero.
+ *
+ * @return If it is considered to be close enough to zero.
+ */
+bool is_zero(double);
 
 #endif

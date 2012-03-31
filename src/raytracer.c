@@ -5,6 +5,6 @@
 
 static const double TOLERANCE = 0.0000000001;
 
-inline bool isZero(double comp) {
+inline bool is_zero(double comp) {
 	return fabs(comp) <= TOLERANCE;
 }

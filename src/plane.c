@@ -21,7 +21,7 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 	double T = 0;
 
 	// If we are parallel to the plane.
-	if (isZero(n_dot_d)) {
+	if (is_zero(n_dot_d)) {
 #ifdef DEBUG_PLANE
 		say("Plane is parallel.");
 #endif
@@ -35,7 +35,7 @@ static double hits_plane(double *base, double *dir, struct object_type *obj) {
 	// base + (dir * Th)
 	sumN(V, P, P, 3);
 
-	if (P[2] > 0 && !isZero(P[2])) {
+	if (P[2] > 0 && !is_zero(P[2])) {
 #ifdef DEBUG_PLANE
 		say("Plane is behind viewer. (T = %lf)", T);
 #endif
