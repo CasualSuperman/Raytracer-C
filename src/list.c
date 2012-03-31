@@ -27,15 +27,15 @@ void add_list(list_t *list, obj_t *entity) {
 }
 
 void free_list(list_t *list) {
-	obj_t *node = NULL;
-	obj_t *next = NULL;
+    obj_t *node = NULL;
+    obj_t *next = NULL;
 
     if (list == NULL) {
         say("Warning: Tried to free a NULL list.");
         return;
     }
 
-	node = list->head;
+    node = list->head;
 
     while (node != NULL) {
         next = node->next;

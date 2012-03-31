@@ -35,9 +35,9 @@ int main(int argc, char **argv) {
 
     // If it was, render the image.
     if (return_code == true) {
-		dump_model(stderr, model);
+        dump_model(stderr, model);
         make_image(model);
-		free_model(model);
+        free_model(model);
     }
 
     // And go on our merry way.

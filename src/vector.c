@@ -87,10 +87,10 @@ inline void sumN(double* v1, double* v2, double* vout, int size) {
  */
 inline void unitvecN(double* vin, double* vout, int size) {
     double mag = 1 / lengthN(vin, size);
-	int i;
+    int i;
     for (i = 0; i < size; ++i, ++vin, ++vout) {
         *vout = *vin * mag;
-	}
+    }
 }
 
 /**

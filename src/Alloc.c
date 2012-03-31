@@ -19,10 +19,10 @@ void* Malloc(size_t size) {
     }
 
 #ifdef DEBUG_MEMORY
-	say("Allocated memory. Allocated objects - %d", ++allocated);
+    say("Allocated memory. Allocated objects - %d", ++allocated);
 #endif
 
-	return ptr;
+    return ptr;
 }
 
 // Calloc num*size_t bytes. Exit on failure.
@@ -35,10 +35,10 @@ void* Calloc(size_t num, size_t size) {
     }
 
 #ifdef DEBUG_MEMORY
-	say("Allocated memory. Allocated objects - %d", ++allocated);
+    say("Allocated memory. Allocated objects - %d", ++allocated);
 #endif
 
-	return ptr;
+    return ptr;
 }
 
 // Realloc size_t bytes and copy ptr contents. Exit on failure.
@@ -51,15 +51,15 @@ void* Realloc(void *ptr, size_t size) {
     }
 
 #ifdef DEBUG_MEMORY
-	say("Allocated memory. Allocated objects - %d", ++allocated);
+    say("Allocated memory. Allocated objects - %d", ++allocated);
 #endif
 
-	return new_ptr;
+    return new_ptr;
 }
 
 inline void Free(void *ptr) {
 #ifdef DEBUG_MEMORY
-	say("Freed memory. Allocated objects - %d", --allocated);
+    say("Freed memory. Allocated objects - %d", --allocated);
 #endif
-	free(ptr);
+    free(ptr);
 }
